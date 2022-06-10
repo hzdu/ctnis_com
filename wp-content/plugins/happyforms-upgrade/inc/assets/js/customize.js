@@ -717,8 +717,6 @@
 
 			this.drawer.close();
 
-			partModel.set( 'description_mode', happyForms.form.get( 'part_description_mode' ) );
-
 			this.model.get( 'parts' ).add( partModel, options );
 			this.model.trigger( 'change', this.model );
 
@@ -826,6 +824,7 @@
 				$( '.happyforms-widget:nth-child(' + options.index + ')', this.$el ).after( partView.render().$el );
 			}
 
+			this.assignLastOfTypeClasses();
 			partView.trigger( 'ready' );
 
 			if ( options.scrollto ) {
@@ -838,6 +837,8 @@
 		onPartViewRemove: function( viewModel ) {
 			var partView = viewModel.get( 'view' );
 			partView.remove();
+
+			this.assignLastOfTypeClasses();
 		},
 
 		onPartSortStop: function( e, ui ) {
@@ -865,6 +866,8 @@
 				$stage.append( $partViewEl );
 				partView.trigger( 'refresh' );
 			}, this );
+
+			this.assignLastOfTypeClasses();
 		},
 
 		onPartViewsChanged: function( partViews ) {
@@ -872,6 +875,22 @@
 				this.$el.addClass( 'has-parts' );
 			} else {
 				this.$el.removeClass( 'has-parts' );
+			}
+		},
+
+		assignLastOfTypeClasses: function() {
+			var partTypeGroups = this.partViews.groupBy( function( partViewModel ) {
+				return partViewModel.get( 'view' ).model.get( 'type' );
+			} );
+
+			for ( var type in partTypeGroups ) {
+				var viewModels = partTypeGroups[type];
+
+				viewModels.forEach( function( viewModel ) {
+					viewModel.get( 'view' ).$el.removeClass( 'last-of-type' );
+				} );
+
+				viewModels[viewModels.length - 1].get( 'view' ).$el.addClass( 'last-of-type' );
 			}
 		},
 
@@ -1065,12 +1084,11 @@
 				this.onDescriptionChange( model, value );
 				}, 800 ) );
 			this.listenTo( this.model, 'change:default_value', this.onDefaultValueChange );
-			// this.listenTo( this.model, 'change:description_mode', this.onDescriptionModeChange );
 			this.listenTo( this.model, 'change:label_placement', this.onLabelPlacementChange );
 			this.listenTo( this.model, 'change:css_class', this.onCSSClassChange );
-			this.listenTo( this.model, 'change:focus_reveal_description', this.onFocusRevealDescriptionChange );
 			this.listenTo( this.model, 'change:prefix', this.onPartPrefixChange );
 			this.listenTo( this.model, 'change:suffix', this.onPartSuffixChange );
+			this.listenTo( this.model, 'change:limit_answer', this.onPartLimitAnswerChange );
 
 			this.listenTo( this, 'ready', this.updateDynamicDropdownSettings );
 
@@ -1319,7 +1337,6 @@
 				id: this.model.id,
 			};
 
-			model.set( 'description_mode', happyForms.form.get( 'part_description_mode' ) );
 			model.fetchHtml( function( response ) {
 				var data = {
 					id: model.get( 'id' ),
@@ -1338,8 +1355,6 @@
 		 * @return void
 		 */
 		onLabelPlacementChange: function( model, value, options ) {
-			var $select = $( '[data-bind=label_placement]', this.$el );
-
 			if ( 'hidden' === value ) {
 				$( '[data-bind=description_mode] option[value=tooltip]', this.$el ).hide();
 
@@ -1348,26 +1363,20 @@
 				$( '[data-bind=description_mode] option[value=tooltip]', this.$el ).show();
 			}
 
-			if ( $('option[value='+value+']', $select).length > 0 ) {
-				$select.val( value );
-
-				if ( 'as_placeholder' === value ) {
-					$( '.happyforms-placeholder-option', this.$el ).hide();
-				} else {
-					$( '.happyforms-placeholder-option', this.$el ).show();
-				}
-
-				model.fetchHtml( function( response ) {
-					var data = {
-						id: model.get( 'id' ),
-						html: response,
-					};
-
-					happyForms.previewSend( 'happyforms-form-part-refresh', data );
-				} );
+			if ( 'as_placeholder' === value ) {
+				$( '.happyforms-placeholder-option', this.$el ).hide();
 			} else {
-				model.set('label_placement', model.previous('label_placement'), { silent: true });
+				$( '.happyforms-placeholder-option', this.$el ).show();
 			}
+
+			model.fetchHtml( function( response ) {
+				var data = {
+					id: model.get( 'id' ),
+					html: response,
+				};
+
+				happyForms.previewSend( 'happyforms-form-part-refresh', data );
+			} );
 		},
 
 		resetDescriptionMode: function() {
@@ -1417,19 +1426,6 @@
 			$descriptionOptionsWrap.fadeOut(200, function() {
 				$descriptionOptionsWrap.find('input').prop('checked', false);
 			});
-		},
-
-		onFocusRevealDescriptionChange: function( model, value ) {
-			if ( 1 == value && 1 == model.get( 'tooltip_description' ) ) {
-				$( '[data-bind=tooltip_description]', this.$el ).prop('checked', false ).trigger('change');
-			}
-
-			var data = {
-				id: this.model.id,
-				callback: 'onFocusRevealDescriptionCallback',
-			};
-
-			happyForms.previewSend('happyforms-part-dom-update', data);
 		},
 
 		onAdvancedSettingsClick: function( e ) {
@@ -1588,6 +1584,16 @@
 			}
 		},
 
+		onPartLimitAnswerChange: function( model, value ) {
+			var $limitSettings = $( '.happyforms-answer-limit-settings', this.$el );
+
+			if ( value ) {
+				$limitSettings.show();
+			} else {
+				$limitSettings.hide();
+			}
+		},
+
 	} );
 
 	classes.views.FormSetup = classes.views.Base.extend( {
@@ -1694,6 +1700,14 @@
 
 			if ( handDrawnSignature ) {
 				self.$el.addClass( 'has-drawn-signature' );
+			}
+
+			var pageBreakPart = this.model.get( 'parts' ).findWhere( {
+				type: 'page_break',
+			} );
+
+			if ( pageBreakPart ) {
+				self.$el.addClass( 'has-page-break' );
 			}
 		},
 
@@ -2072,6 +2086,8 @@
 			'keyup [data-attribute="field_signature_start_over_button_label"]': 'onSignatureStartOverButtonLabelChange',
 			'keyup [data-attribute="field_signature_clear_button_label"]': 'onSignatureClearButtonLabelChange',
 			'keyup [data-attribute="field_signature_done_button_label"]': 'onSignatureDoneButtonLabelChange',
+			'keyup [data-attribute="phone_label_country_code"]': 'onPhoneLabelCountryChange',
+			'keyup [data-attribute="phone_label_number"]': 'onPhoneLabelNumberChange',
 			'change [data-attribute]': 'triggerKeyUp',
 			'click [data-reset]': 'resetDefaultMessage',
 			'keyup input[data-attribute]': 'onMessageValueChange',
@@ -2219,10 +2235,6 @@
 				self.$el.addClass( 'allow-preview' );
 			}
 
-			if ( happyForms.form.get( 'restrict_entries' ) == 1 ) {
-				self.$el.addClass( 'is-restrict-entries' );
-			}
-
 			var hasEmail = happyForms.form.get( 'parts' ).findWhere( {
 				type: 'email'
 			} );
@@ -2316,16 +2328,20 @@
 				self.$el.addClass( 'has-show-voting' );
 			}
 
-			var fileUploadWithCount = happyForms.form.get( 'parts' ).findWhere( {
-				use_max_file_count: 1
+			var fileUploadWithMinCount = happyForms.form.get( 'parts' ).find( function( part ) {
+ 				return part.get( 'min_file_count' ) > 0;
+ 			} );
+
+ 			if ( fileUploadWithMinCount ) {
+ 				self.$el.addClass( 'has-file-upload-min-limit' );
+ 			}
+
+			var fileUploadWithCount = happyForms.form.get( 'parts' ).find( function( part ) {
+				return part.get( 'max_file_count' ) > 0;
 			} );
 
 			if ( fileUploadWithCount ) {
 				self.$el.addClass( 'has-file-upload-limit' );
-			}
-
-			if ( happyForms.form.get( 'hide_prev_button' ) == 1 ) {
-				self.$el.addClass( 'hide-prev-label' );
 			}
 
 			var handDrawnSignature = this.model.get( 'parts' ).findWhere( {
@@ -2341,6 +2357,23 @@
 				 1 == this.model.get( 'block_emails' ) ||
 				 1 == this.model.get( 'block_language' ) ) {
 				self.$el.addClass( 'has-disallowed-validation' );
+			}
+
+			var limitedAnswerField = happyForms.form.get( 'parts' ).find( function( part ) {
+				return part.get( 'max_limit_answer' ) >= 0;
+			} );
+
+			if ( limitedAnswerField ) {
+				self.$el.addClass( 'has-limit-answer' );
+			}
+
+			var hasPhoneInternational = this.model.get( 'parts' ).findWhere( {
+				type: 'phone',
+				masked: 1,
+			} );
+
+			if ( hasPhoneInternational ) {
+				self.$el.addClass( 'has-phone-international' );
 			}
 		},
 
@@ -2491,6 +2524,22 @@
 			happyForms.previewSend( 'happyforms-form-dom-update', data );
 		},
 
+		onPhoneLabelCountryChange: function( e ) {
+			var data = {
+				callback: 'onPhoneLabelCountryChangeCallback',
+			};
+
+			happyForms.previewSend( 'happyforms-form-dom-update', data )
+		},
+
+		onPhoneLabelNumberChange: function( e ) {
+			var data = {
+				callback: 'onPhoneLabelNumberChangeCallback',
+			};
+
+			happyForms.previewSend( 'happyforms-form-dom-update', data )
+		},
+
 	} );
 
 	classes.views.FormStyle = classes.views.Base.extend( {
@@ -2514,7 +2563,6 @@
 				this.onAdditionalCSSChange( model, value );
 			}, 500 ) );
 			this.listenTo( this.model, 'change:form_title', this.onChangeTitleDisplay );
-			this.listenTo( this.model, 'change:part_description_mode', this.onChangeGlobalDescriptionMode );
 
 			this.styles = new Backbone.Collection();
 		},
@@ -2596,10 +2644,6 @@
 			};
 
 			happyForms.previewSend( 'happyforms-form-class-update', data );
-		},
-
-		onChangeGlobalDescriptionMode: function( model, value ) {
-			this.refreshFormParts( 'description_mode', value );
 		},
 
 		refreshFormParts: function( partAttribute, value ) {
@@ -3027,6 +3071,16 @@
 			} else {
 				$form.removeAttr( 'data-happyforms-resumable' );
 			}
+		},
+
+		onPhoneLabelCountryChangeCallback: function ( $form ) {
+			var label = happyForms.form.get( 'phone_label_country_code' );
+			$( '.happyforms-phone-international .happyforms-input-country-code .happyforms-phone-international-labels', $form ).text( label );
+		},
+
+		onPhoneLabelNumberChangeCallback: function ( $form ) {
+			var label = happyForms.form.get( 'phone_label_number' );
+			$( '.happyforms-phone-international .happyforms-input .happyforms-phone-international-labels', $form ).text( label );
 		},
 
 		/**

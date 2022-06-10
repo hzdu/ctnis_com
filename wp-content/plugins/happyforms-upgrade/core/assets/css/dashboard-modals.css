@@ -4,7 +4,14 @@
  *
  */
 .happyforms-modal {
-  width: 450px;
+  width: 312px;
+}
+
+.happyforms-modal picture > img {
+  display: block;
+  max-width: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
 }
 
 .happyforms-modal p:last-child {

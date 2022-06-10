@@ -7,8 +7,6 @@
   flex-flow: row wrap;
   align-items: flex-start;
   max-width: 100%;
-  margin: 0 -1%;
-  padding: 0 0 25px 0;
 }
 
 .happyforms-form {
@@ -134,8 +132,8 @@ h3.happyforms-form__title {
   top: -45px;
 }
 
-.happyforms-part--width-auto+.happyforms-part--submit input[type=submit],
-.happyforms-part--width-auto+.happyforms-part--recaptcha+.happyforms-part--submit input[type=submit] {
+.happyforms-part--width-auto+.happyforms-part--submit button[type=submit],
+.happyforms-part--width-auto+.happyforms-part--recaptcha+.happyforms-part--submit button[type=submit] {
   width: 100%;
   padding: 17px 50px;
 }
@@ -160,30 +158,30 @@ h3.happyforms-form__title {
   padding-left: 0;
 }
 
-.happyforms-form--submit-part-of-input .happyforms-part--width-auto+.happyforms-part--submit input[type=submit],
-.happyforms-form--submit-part-of-input .happyforms-part--width-auto+.happyforms-part--recaptcha+.happyforms-part--submit input[type=submit] {
+.happyforms-form--submit-part-of-input .happyforms-part--width-auto+.happyforms-part--submit button[type=submit],
+.happyforms-form--submit-part-of-input .happyforms-part--width-auto+.happyforms-part--recaptcha+.happyforms-part--submit button[type=submit] {
   padding-top: 8px;
   padding-bottom: 9px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
 
-.happyforms-form--submit-part-of-input.happyforms-form--part-inner-padding-wide .happyforms-part--width-auto+.happyforms-part--submit input[type=submit],
-.happyforms-form--submit-part-of-input.happyforms-form--part-inner-padding-wide .happyforms-part--width-auto+.happyforms-part--recaptcha+.happyforms-part--submit input[type=submit] {
+.happyforms-form--submit-part-of-input.happyforms-form--part-inner-padding-wide .happyforms-part--width-auto+.happyforms-part--submit button[type=submit],
+.happyforms-form--submit-part-of-input.happyforms-form--part-inner-padding-wide .happyforms-part--width-auto+.happyforms-part--recaptcha+.happyforms-part--submit button[type=submit] {
   padding-top: 13px;
   padding-bottom: 15px;
 }
 
-.happyforms-form--submit-part-of-input.happyforms-form--part-inner-padding-narrow .happyforms-part--width-auto+.happyforms-part--submit input[type=submit],
-.happyforms-form--submit-part-of-input.happyforms-form--part-inner-padding-narrow .happyforms-part--width-auto+.happyforms-part--recaptcha+.happyforms-part--submit input[type=submit] {
+.happyforms-form--submit-part-of-input.happyforms-form--part-inner-padding-narrow .happyforms-part--width-auto+.happyforms-part--submit button[type=submit],
+.happyforms-form--submit-part-of-input.happyforms-form--part-inner-padding-narrow .happyforms-part--width-auto+.happyforms-part--recaptcha+.happyforms-part--submit button[type=submit] {
   padding-top: 3px;
   padding-bottom: 4px;
 }
 
-.happyforms-form--submit-part-of-input .happyforms-part--width-auto.happyforms-part--label-as_placeholder+.happyforms-part--submit input[type=submit],
-.happyforms-form--submit-part-of-input .happyforms-part--width-auto.happyforms-part--label-inside+.happyforms-part--submit input[type=submit],
-.happyforms-form--submit-part-of-input .happyforms-part--width-auto.happyforms-part--label-as_placeholder+.happyforms-part--recaptcha+.happyforms-part--submit input[type=submit],
-.happyforms-form--submit-part-of-input .happyforms-part--width-auto.happyforms-part--label-inside+.happyforms-part--recaptcha+.happyforms-part--submit input[type=submit] {
+.happyforms-form--submit-part-of-input .happyforms-part--width-auto.happyforms-part--label-as_placeholder+.happyforms-part--submit button[type=submit],
+.happyforms-form--submit-part-of-input .happyforms-part--width-auto.happyforms-part--label-inside+.happyforms-part--submit button[type=submit],
+.happyforms-form--submit-part-of-input .happyforms-part--width-auto.happyforms-part--label-as_placeholder+.happyforms-part--recaptcha+.happyforms-part--submit button[type=submit],
+.happyforms-form--submit-part-of-input .happyforms-part--width-auto.happyforms-part--label-inside+.happyforms-part--recaptcha+.happyforms-part--submit button[type=submit] {
   padding-top: 16px;
   padding-bottom: 18px;
 }
@@ -248,10 +246,19 @@ h3.happyforms-form__title {
 .happyforms-part input[type=tel],
 .happyforms-part input[type=number],
 .happyforms-part input[type=range],
-.happyforms-part textarea {
+.happyforms-part textarea,
+.happyforms-part select.happyforms-select {
   width: 100%;
   box-sizing: border-box;
   max-width: none;
+}
+
+.happyforms-part select.happyforms-select {
+  cursor: pointer;
+  appearance: none !important;
+  -moz-appearance: none !important;
+  -webkit-appearance: none !important;
+  background: none !important;
 }
 
 .happyforms-part textarea {
@@ -406,6 +413,15 @@ h3.happyforms-form__title {
   margin-right: 0;
 }
 
+.happyforms-styles .happyforms-part .happyforms-part-option .option-label {
+  align-items: flex-start;
+}
+
+.happyforms-styles .happyforms-part .happyforms-part-option.disabled-option .option-label,
+.happyforms-styles .happyforms-part .happyforms-table__cell.disabled-option .option-label {
+  cursor: default;
+}
+
 @media screen and (max-width: 800px) {
   .happyforms-part--choice .option-label {
     margin-right: 0;
@@ -416,7 +432,8 @@ h3.happyforms-form__title {
   outline: 0;
 }
 
-.happyforms-part .option-label .label {
+.happyforms-part .option-label .label-wrap,
+.happyforms-part.happyforms-part--rank_order .option-label .label {
   position: relative;
   display: inline-block;
   padding: 0 10px;
@@ -436,8 +453,12 @@ h3.happyforms-form__title {
   display: block;
   width: 100%;
   max-width: 400px;
-  margin-top: 3px;
-  margin-right: 20px;
+  margin-top: 0px;
+  margin-left: 31px;
+  flex-basis: 100%;
+  font-weight: normal;
+  font-weight: var(--happyforms-form-font-weight);
+  line-height: 1.4;
 }
 
 .happyforms-part--choice .happyforms-part-option--other input[type=text] {
@@ -456,71 +477,11 @@ h3.happyforms-form__title {
 .happyforms-part.display-type--block .option-label {
   display: flex;
   margin-right: 0;
+  flex-wrap: wrap;
 }
 
-/* tooltips */
-.happyforms-part--has-tooltip .happyforms-input-group__suffix {
-  padding-right: 35px;
-}
-
-.happyforms-tooltip__trigger {
-  position: relative;
-  top: -1px;
-  display: inline-block;
-  vertical-align: top;
-  pointer-events: auto;
-  cursor: pointer;
-  margin-left: 3px;
-  border: 0 !important;
-  color: #000;
-  background-color: transparent;
-  box-shadow: none !important;
-}
-
-.happyforms-tooltip__trigger svg {
-  width: 15px;
-  height: 15px;
-  vertical-align: middle;
-}
-
-.happyforms-tooltip-ui .ui-tooltip-content:before {
-  content: '';
-  position: absolute;
-  top: 100%;
-  left: calc(25% + 6px);
-  width: 0;
-  height: 0;
-  border: 6px solid transparent;
-  border-top-color: #dbdbdb;
-}
-
-.happyforms-tooltip-ui .ui-tooltip-content:after {
-  content: '';
-  position: absolute;
-  top: calc(100% - 1px);
-  left: calc(25% + 7px);
-  width: 0;
-  height: 0;
-  border: 5px solid transparent;
-  border-top-color: #fff;
-}
-
-.happyforms-tooltip-ui--bottom {
-  margin-top: 5px;
-}
-
-.happyforms-tooltip-ui--bottom .ui-tooltip-content:before {
-  top: auto;
-  bottom: 100%;
-  border: 6px solid transparent;
-  border-bottom-color: #dbdbdb;
-}
-
-.happyforms-tooltip-ui--bottom .ui-tooltip-content:after {
-  top: auto;
-  bottom: calc(100% - 1px);
-  border: 5px solid transparent;
-  border-bottom-color: #fff;
+.happyforms-part .happyforms-part-option.option-heading {
+  width: 100%;
 }
 
 /* parts - radio, checkbox */
@@ -891,10 +852,10 @@ h3.happyforms-form__title {
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 6px solid;
+  pointer-events: none;
 }
 
-.happyforms-part--select select:focus,
-.happyforms-part--date select:focus {
+.happyforms-part select.happyforms-select:focus {
   outline-width: 1px;
   outline-color: #000000;
 }
@@ -1246,23 +1207,21 @@ h3.happyforms-form__title {
 }
 
 /* notices */
-.happyforms-flex>.happyforms-message-notices {
-  display: flex;
-  width: 100%;
-  padding: 0 1%;
+.happyforms-message-notices {
   margin: 0 0 25px 0;
+  padding: 0px 1%;
 }
 
-form .happyforms-flex>.happyforms-message-notices .happyforms-message-notice {
+form .happyforms-message-notices .happyforms-message-notice {
   width: 100%;
   box-sizing: border-box;
 }
 
-form .happyforms-flex>.happyforms-message-notices .happyforms-message-notice a {
+form .happyforms-message-notices .happyforms-message-notice a {
   border: 0;
 }
 
-.happyforms-flex>.happyforms-message-notices p:last-child {
+.happyforms-message-notices p:last-child {
   margin-bottom: 0;
 }
 
@@ -1288,13 +1247,13 @@ form .happyforms-flex>.happyforms-message-notices .happyforms-message-notice a {
   width: 100%;
 }
 
-.happyforms-part--label-inside.happyforms-part--phone.happyforms-is-masked .happyforms-part__label-container {
+.happyforms-part--label-inside.happyforms-part--phone.happyforms-phone-international .happyforms-part__label-container {
   top: 10px;
   left: 75px;
   z-index: 2;
 }
 
-.happyforms-part--label-as_placeholder.happyforms-part--phone.happyforms-is-masked .happyforms-part__label-container {
+.happyforms-part--label-as_placeholder.happyforms-part--phone.happyforms-phone-international .happyforms-part__label-container {
   top: 10px;
   left: 75px;
 }
@@ -1429,6 +1388,13 @@ form .happyforms-flex>.happyforms-message-notices .happyforms-message-notice a {
   padding: 0 0.5%;
 }
 
+
+.happyforms-form--part-outer-padding-narrow .happyforms-form__progress,
+.happyforms-form--part-outer-padding-narrow .happyforms-message-notices {
+  padding-left: 0.5%;
+  padding-right: 0.5%;
+}
+
 .happyforms-form--part-outer-padding-narrow .happyforms-part__select-wrap {
   padding: 0;
 }
@@ -1450,6 +1416,17 @@ form .happyforms-flex>.happyforms-message-notices .happyforms-message-notice a {
   padding: 20px 3%;
 }
 
+
+.happyforms-form--part-outer-padding-wide .happyforms-form__progress,
+.happyforms-form--part-outer-padding-wide .happyforms-message-notices {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+
+.happyforms-form--part-outer-padding-wide .happyforms-form__part.happyforms-part--page_break {
+  padding: 0;
+}
+
 .happyforms-form--part-outer-padding-wide .happyforms-part .happyforms-part-option {
   margin-right: 15px;
 }
@@ -1465,8 +1442,15 @@ form .happyforms-flex>.happyforms-message-notices .happyforms-message-notice a {
 .happyforms-form--part-inner-padding-narrow .happyforms-part input[type=number],
 .happyforms-form--part-inner-padding-narrow .happyforms-part textarea,
 .happyforms-form--part-inner-padding-narrow .happyforms-part .option-label,
-.happyforms-form--part-inner-padding-narrow .happyforms-part--signature .happyforms--signature-area--container {
+.happyforms-form--part-inner-padding-narrow .happyforms-part--signature .happyforms--signature-area--container,
+.happyforms-form--part-inner-padding-narrow .happyforms-part:not(.happyforms-part--phone) select.happyforms-select {
   padding: 5px;
+}
+
+.happyforms-form--part-inner-padding-narrow .happyforms-part .happyforms-input-group__prefix,
+.happyforms-form--part-inner-padding-narrow .happyforms-part .happyforms-input-group__suffix {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .happyforms-form--part-inner-padding-narrow .happyforms-part--legal label {
@@ -1487,7 +1471,8 @@ form .happyforms-flex>.happyforms-message-notices .happyforms-message-notice a {
 .happyforms-form--part-inner-padding-wide .happyforms-part input[type=number],
 .happyforms-form--part-inner-padding-wide .happyforms-part textarea,
 .happyforms-form--part-inner-padding-wide .happyforms-part .option-label,
-.happyforms-form--part-inner-padding-wide .happyforms-part--signature .happyforms--signature-area--container {
+.happyforms-form--part-inner-padding-wide .happyforms-part--signature .happyforms--signature-area--container,
+.happyforms-form--part-inner-padding-wide .happyforms-part:not(.happyforms-part--phone) select.happyforms-select {
   padding: 15px;
 }
 
@@ -1509,11 +1494,11 @@ form .happyforms-flex>.happyforms-message-notices .happyforms-message-notice a {
 
 /* submit button */
 
-.happyforms-form--submit-button-fullwidth input[type=submit].happyforms-button--submit {
+.happyforms-form--submit-button-fullwidth button[type=submit].happyforms-button--submit {
   width: 100%;
 }
 
-input[type=submit][disabled].happyforms-button--submit {
+button[type=submit][disabled].happyforms-button--submit {
   cursor: default;
 }
 
@@ -1538,9 +1523,9 @@ input[type=submit][disabled].happyforms-button--submit {
 }
 
 /* widget */
-.widget input[type=submit].happyforms-button--submit,
-.widget input[type=submit][disabled].happyforms-button--submit,
-.widget input[type=submit][disabled].happyforms-button--submit:hover {
+.widget button[type=submit].happyforms-button--submit,
+.widget button[type=submit][disabled].happyforms-button--submit,
+.widget button[type=submit][disabled].happyforms-button--submit:hover {
   width: 100%;
 }
 
@@ -1735,124 +1720,66 @@ input[type=submit][disabled].happyforms-button--submit {
   position: relative;
 }
 
+.happyforms-part--phone.happyforms-phone-international .happyforms-part-phone-wrap {
+  display: flex;
+  align-items: stretch;
+  flex-flow: row wrap;
+  gap: 10px;
+}
+
 /* phone part */
-.happyforms-country-select {
+.happyforms-input-country-code {
   position: relative;
   display: flex;
-  align-items: center;
-  padding: 0 10px;
+  flex-wrap: wrap;
+  flex: 1;
+  align-items: stretch;
+  width: auto;
+  max-width: 180px;
 }
 
-.happyforms-country-select--multiple {
-  padding-right: 25px;
-  height:  100%;
-}
-
-.happyforms-form--part-border-radius-square .happyforms-country-select {
-  border-radius: 0;
-}
-
-.happyforms-form--part-border-radius-pill .happyforms-country-select {
-  border-radius: 25px;
-  border-bottom: 0;
-  border-top: 0;
-}
-
-.happyforms-form--part-border-off .happyforms-country-select {
-  border-width: 0;
-}
-
-.happyforms-form--part-borders-bottom-only .happyforms-country-select {
-  border-top-width: 0;
-  border-left-width: 0;
-}
-
-.happyforms-country-select.focus {
-  border-right: 0;
-}
-
-.happyforms-country-select li.active:focus {
-  outline:  none;
-}
-
-.happyforms-form--part-border-off .happyforms-country-select.focus {
-  border-width: 0;
-}
-
-.happyforms-form--part-borders-bottom-only .happyforms-country-select.focus {
-  border-top-width: 0;
-  border-left-width: 0;
-  border-bottom-width: 1px;
-}
-
-a.happyforms-country-select-trigger {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: auto;
+.happyforms-part.happyforms-part--phone.happyforms-phone-international .happyforms-phone-country-group {
+  display: block;
   width: 100%;
-  height: 100%;
-  z-index: 10;
-  text-decoration: none;
-  box-shadow: none;
 }
 
-a.happyforms-country-select-trigger:hover,
-a.happyforms-country-select-trigger:focus {
-  text-decoration: none;
-  box-shadow: none;
+.happyforms-part.happyforms-part--phone.happyforms-phone-international .happyforms-input {
+  flex-wrap: wrap;
 }
 
-.happyforms-country-select--multiple .happyforms-country-select-trigger {
-  display: block;
+.happyforms-part.happyforms-part--phone.happyforms-phone-international .happyforms-part-phone-wrap > .happyforms-input input,
+.happyforms-part.happyforms-part--phone.happyforms-phone-international .happyforms-part-phone-wrap .happyforms-input-country-code .happyforms-phone-country-group {
+  align-self: flex-end;
 }
 
-.happyforms-country-select__selected-country {
-  z-index: 1;
-  box-sizing: border-box;
-}
-
-.happyforms-country-select--multiple .happyforms-country-select__selected-country:after {
-  content: '';
-  display: block;
-  position: absolute;
-  top: calc(50% - 2px);
-  right: 10px;
-  width: 0;
-  height: 0;
-}
-
-.happyforms-part--phone .happyforms-country-code span {
-  padding: 0 0 0 5px;
-  font-size: 16px;
-}
-
-.happyforms-country-code {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: auto;
-  line-height: 1;
-  font-size: inherit;
-  font-size: 100%;
-}
-
-.happyforms-part--phone.happyforms-is-masked .happyforms-part-phone-wrap>input[type=text] {
+.happyforms-part--phone.happyforms-phone-international .happyforms-part-phone-wrap>input[type=text] {
   padding-left: 45px;
 }
 
-.happyforms-part--phone.happyforms-is-masked .happyforms-part-phone-wrap>input[type=text]:focus~div {
+.happyforms-part--phone.happyforms-phone-international .happyforms-part-phone-wrap>input[type=text]:focus~div {
   display: none;
 }
 
-.happyforms-part--phone.happyforms-is-masked.happyforms-has-country-select .happyforms-part-phone-wrap>input[type=text] {
-  padding-left: 60px;
+ .happyforms-part--phone.happyforms-phone-international .happyforms-phone-international-wrap {
+  width: auto;
+  max-width: 100%;
+  margin-bottom: 10px;
 }
 
-/* new dropdowns */
-.happyforms-part select {
-  display: none;
+.happyforms-form--part-outer-padding-narrow .happyforms-part--phone.happyforms-phone-international .happyforms-phone-international-wrap {
+  margin-bottom: 5px;
+}
+
+.happyforms-form--part-outer-padding-wide .happyforms-part--phone.happyforms-phone-international .happyforms-phone-international-wrap {
+  margin-bottom: 35px;
+}
+
+
+@media screen and (max-width: 374px) {
+  .happyforms-input-country-code {
+    width: 100%;
+    margin-right: 0px;
+  }
 }
 
 .happyforms-custom-select input[readonly="readonly"] {
@@ -2375,15 +2302,6 @@ div.mce-inline-toolbar-grp.happyforms-editor-toolbar-link .mce-btn:active {
   color: transparent;
 }
 
-.happyforms-part--rich_text.happyforms-part--label-below.happyforms-part--has-tooltip .happyforms-visual-editor,
-.happyforms-part--rich_text.happyforms-part--label-left.happyforms-part--has-tooltip .happyforms-visual-editor {
-  margin-top: 35px;
-}
-
-.happyforms-part--rich_text.happyforms-part--label-hidden.happyforms-part--has-tooltip .happyforms-part__el {
-  margin-top: 35px;
-}
-
 .happyforms-part__char-counter {
   display: none;
   margin-top: 5px;
@@ -2395,9 +2313,12 @@ div.mce-inline-toolbar-grp.happyforms-editor-toolbar-link .mce-btn:active {
   text-transform: lowercase;
 }
 
-.happyforms-part--checkbox .option-label .label,
-.happyforms-part--radio .option-label .label {
+.happyforms-part--checkbox .option-label .label-wrap,
+.happyforms-part--radio .option-label .label-wrap,
+.happyforms-part--poll .option-label .label-wrap,
+.happyforms-part--email_integration .option-label .label-wrap {
   padding-right: 5px;
+  flex: 1;
 }
 
 
@@ -2564,17 +2485,13 @@ a.happyforms-plain-button {
   font-weight: normal;
   box-shadow: none;
   border: 0;
-  background: #e8e8e8;
+  background-color: #e8e8e8 !important;
   text-transform: none;
   text-shadow: none;
 }
 
 .happyforms-input-group input {
   width: 100%;
-}
-
-.happyforms-part--phone .happyforms-input-group__prefix {
-  padding: 0;
 }
 
 .happyforms-part--narrative img {
@@ -2715,24 +2632,6 @@ a.happyforms-plain-button {
   }
 }
 
-.happyforms-tooltip-ui {
-  padding: 8px;
-  position: absolute;
-  z-index: 9999;
-  min-width: auto;
-  max-width: 350px;
-  border-radius: 6px;
-  font-size: 14px;
-  border: 1px solid #dbdbdb;
-  background: #fff;
-  overflow-wrap: anywhere;
-}
-
-.happyforms-tooltip-ui .ui-widget-content {
-  background: #ffffff;
-  color: #000;
-}
-
 .happyforms-part--select .happyforms-part-option--other input[type=text] {
   display: none;
   margin-top: 10px;
@@ -2740,4 +2639,12 @@ a.happyforms-plain-button {
 
 .happyforms-part--select .happyforms-part-option--other input[type=text].hf-show {
   display:block;
+}
+
+.happyforms-part--scrollable_terms .scrollbox {
+  height: 185px;
+  overflow-y: scroll;
+  border: 1px solid;
+  max-width: 100%;
+  resize: vertical;
 }

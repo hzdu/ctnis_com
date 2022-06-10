@@ -11,8 +11,6 @@
 			this.$input.on( 'blur', this.onBlur.bind( this ) );
 			this.$input.on( 'focus', this.onInputFocus.bind( this ) );
 
-			this.initTooltip();
-
 			if ( 'draw' === this.$el.attr( 'data-happyforms-signature-type' ) ) {
 				this.initDrawingArea();
 			}
@@ -43,7 +41,7 @@
 
 		serialize: function() {
 			var serialized = HappyForms.parts.base.serialize.apply( this, arguments );
-			
+
 			if ( 'draw' === this.$el.attr( 'data-happyforms-signature-type' ) ) {
 				serialized.push( {
 					name: this.$signatureSVG.attr( 'data-happyforms-name' ),
@@ -52,7 +50,7 @@
 			}
 
 			return serialized;
-		}, 
+		},
 
 		getRasterData: function() {
 			var canvas = document.createElement( 'canvas' );
@@ -85,12 +83,11 @@
 			this.$signaturePathDataInput = $( '[data-happyforms-path-data]', this.$el );
 			this.$signatureRasterDataInput = $( '[data-happyforms-raster-data]', this.$el );
 
-			this.nonce = $( '[name="happyforms_message_nonce"]', this.$form ).val();
 			this.formId = $( '[name="happyforms_form_id"]', this.$form ).val();
 			this.partId = this.$el.attr( 'data-happyforms-id' );
 			this.signaturePath = '';
 			this.signaturePoints = [];
-			
+
 			this.$startDrawingButton = $( '.happyforms--signature-area--start-drawing', this.$el );
 			this.$clearDrawingButton = $( '.happyforms--signature-area--clear-drawing', this.$el );
 			this.$doneDrawingButton = $( '.happyforms--signature-area--done-drawing', this.$el );
@@ -104,7 +101,6 @@
 			this.$signatureAreaContainer.on( 'pointerdown', this.onSignatureAreaContainerFocus.bind( this ) );
 
 			this.resizeDrawingArea();
-			this.toggleClearButton();
 		},
 
 		resizeDrawingArea: function() {
@@ -112,10 +108,6 @@
 			var height = Math.floor( this.$signatureSVG.outerHeight() );
 
 			this.$signatureSVG.attr( 'viewBox', '0 0 ' + width + ' ' + height );
-		},
-
-		toggleClearButton: function() {
-			this.$clearDrawingButton.prop( 'disabled', ! this.$signaturePath.attr( 'd' ).trim() );
 		},
 
 		onSignatureAreaContainerFocus: function( e ) {
@@ -174,13 +166,11 @@
 				}
 
 				this.signaturePoints.push( [ e.offsetX, e.offsetY, e.pressure ] );
-				
+
 				var stroke = PerfectFreehand.getStroke( this.signaturePoints );
 				var pathData = PerfectFreehand.getSvgPathFromStroke( stroke );
-				
-				this.$signaturePath.attr( 'd', this.signaturePath + ' ' + pathData );
 
-				this.toggleClearButton();
+				this.$signaturePath.attr( 'd', this.signaturePath + ' ' + pathData );
 			}
 		},
 
@@ -189,7 +179,7 @@
 			this.signaturePath = this.$signaturePath.attr( 'd' );
 
 			this.$signatureSVG.on( 'pointermove', this.onPointerMove.bind( this ) );
-		}, 
+		},
 
 		onPointerLeave: function() {
 			this.$signatureSVG.off( 'pointermove' );
@@ -217,8 +207,6 @@
 			this.$signaturePathDataInput.val( '' );
 			this.$signatureRasterDataInput.val( '' );
 			this.$signatureAreaContainer.removeClass( 'drawn' );
-
-			this.toggleClearButton();
 		},
 
 		onEditDrawingClick: function( e ) {
@@ -231,13 +219,13 @@
 			this.clearDrawing();
 			this.startDrawing();
 			this.triggerChange();
-		}, 
+		},
 
 		onDoneDrawingClick: function( e ) {
 			e.preventDefault();
-			
+
 			this.doneDrawing();
-		}, 
+		},
 
 		doneDrawing: function() {
 			this.$signatureSVG.off( 'pointerdown' );
@@ -257,8 +245,6 @@
 			} else {
 				this.$signatureAreaContainer.removeClass( 'drawn' );
 			}
-			
-			this.toggleClearButton();
 			this.triggerChange();
 			this.onSignatureAreaContainerBlur();
 		},

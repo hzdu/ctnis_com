@@ -11,7 +11,11 @@
 			this.elements = {};
 			this.checkoutDataKey = 'happyforms_' + this.formID + '_stripe_checkout';
 
-			this.init();
+			if ( ! this.$paymentsPart.is( '[data-happyforms-has-stripe]' ) ) {
+				return;
+			}
+
+			HappyForms.scripts.fetch( 'stripe', settings.libraryURL, this.init.bind( this ) );
 		}
 
 		HappyFormsStripe.prototype.init = function() {
@@ -37,10 +41,6 @@
 		},
 
 		HappyFormsStripe.prototype.destroy = function() {
-			// for ( var element in this.elements ) {
-			// 	this.elements[element].destroy();
-			// }
-
 			this.$form.off( 'happyforms.submitted' );
 			this.$paymentsPart.off( 'happyforms.cssvar' );
 			this.$el.data( 'HappyFormsStripe', false );
@@ -105,53 +105,30 @@
 		/**
 		 * Set error state on Stripe element so it has a look and feel of our proprietary messages.
 		 *
-		 * @param {string} elementType Element type the message is associated with.
 		 * @param {string} message Message as returned by Stripe API.
 		 */
-		HappyFormsStripe.prototype.setError = function( elementType, message ) {
-			var $element = '';
-
-			if ( 'card' === elementType ) {
-				$element = $( '.stripe-card', this.$el );
-			}
-
-			if ( ! $element ) {
-				return;
-			}
-
-			$error = $element.next( '.happyforms-message-notices' );
+		HappyFormsStripe.prototype.setError = function( message ) {
+			$error = $( '.happyforms-part-error-notice', this.$paymentsPart );
 			$( '.credit-card-filled', this.$paymentsPart ).val( 0 );
 
-			$( 'h2', $error ).text( message );
+			$( 'span', $error ).text( message );
 			$error.show();
 		},
 
 		/**
 		 * Hides error from Stripe element.
-		 *
-		 * @param {string} elementType Element type the error is associated with.
 		 */
-		HappyFormsStripe.prototype.hideError = function( elementType ) {
-			var $element = '';
-
-			if ( 'card' === elementType ) {
-				$element = $( '.stripe-card', this.$el );
-			}
-
-			if ( ! $element ) {
-				return;
-			}
-
-			$error = $element.next( '.happyforms-message-notices' );
-
-			$( 'h2', $error ).text( '' );
+		HappyFormsStripe.prototype.hideError = function() {
+			$error = $( '.happyforms-part-error-notice', this.$paymentsPart );
+			$( 'span', $error ).text( '' );
 			$error.hide();
 		},
 
 		HappyFormsStripe.prototype.onElementChange = function( e ) {
+			this.hideError();
+
 			if ( e.complete ) {
 				this.setPaymentMethod();
-				this.hideError( e.elementType );
 				return;
 			}
 
@@ -159,7 +136,7 @@
 				return;
 			}
 
-			this.setError( e.elementType, e.error.message );
+			this.setError( e.error.message );
 		},
 
 		/**
@@ -297,9 +274,8 @@
 				self.clearCheckoutData();
 			}, 500 );
 
-			var $loadingNotice = $( '.happyforms-message-notice:first', this.$el );
-			$loadingNotice.parent().remove();
-			$( response.data ).prependTo( $( '.happyforms-flex', this.$el ) );
+			var $loadingNotice = $( '.happyforms-stripe-authorization-notices' );
+			$loadingNotice.replaceWith( response.data );
 			this.$el.happyFormsStripe( 'destroy' );
 			this.$el.happyFormsStripe();
 		},
@@ -336,4 +312,4 @@
 			$( this ).happyFormsStripe();
 		} );
 	} );
-} )( jQuery, Cookies, _happyFormsStripeSettings );
+} )( jQuery, Cookies, _happyFormsSettings.stripe );

@@ -14,6 +14,10 @@
 		template: '#happyforms-customize-payments-template',
 		editor: null,
 
+		events: _.extend( {}, happyForms.classes.views.Part.prototype.events, {
+			'change [data-bind=user_price_step]': 'onPaymentStepIntervalChange',
+		} ),
+
 		initialize: function() {
 			happyForms.classes.views.Part.prototype.initialize.apply( this, arguments );
 
@@ -87,7 +91,21 @@
 			};
 
 			happyForms.previewSend( 'happyforms-part-dom-update', data );
-		}
+		},
+
+		onPaymentStepIntervalChange: function( e ) {
+			if ( $( e.target ).val() <= 0 ) {
+				$('[data-bind=user_price_step]', this.$el).val( 1 );
+				this.model.set( 'user_price_step', 1 );
+			}
+
+			var data = {
+				id: this.model.get( 'id' ),
+				callback: 'onPaymentStepIntervalChangeCallback',
+			};
+
+			happyForms.previewSend( 'happyforms-part-dom-update', data );
+		},
 
 	} );
 
@@ -172,6 +190,14 @@
 			if ( $currencySymbolUserPrefix.length ) {
 				$currencySymbolUserPrefix.html( options.symbol );
 			}
+		},
+
+		onPaymentStepIntervalChangeCallback: function( id, html, options ) {
+			var part = this.getPartModel( id );
+			var $part = this.getPartElement( html );
+			var $input = this.$( 'input', $part );
+
+			$input.attr( 'step', part.get( 'user_price_step' ) );
 		},
 	} );
 

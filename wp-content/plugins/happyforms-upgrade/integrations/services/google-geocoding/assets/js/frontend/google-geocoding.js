@@ -106,4 +106,4 @@
 			$( this ).happyFormsGoogleGeocoding();
 		} );
 	} );
-} ) ( jQuery, _happyFormsGoogleGeocodingSettings );
+} ) ( jQuery, _happyFormsSettings.googleGeocoding );

@@ -123,7 +123,7 @@ __webpack_require__.r(__webpack_exports__);
       value: form.ID
     };
   });
-  options.reverse().unshift({
+  options.unshift({
     label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Choose', 'happyforms'),
     value: ''
   });
@@ -138,7 +138,10 @@ __webpack_require__.r(__webpack_exports__);
         }
       }),
       label: settings.block.title,
-      instructions: settings.forms.length > 0 ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Pick a form to display on your site.', 'happyforms') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('No forms found.', 'happyforms'),
+      instructions: [props.attributes.id && !props.attributes.exists && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__["Notice"], {
+        status: "warning",
+        isDismissible: false
+      }, Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('The form previously added has been trashed or deleted.', 'happyforms')), settings.forms.length > 0 ? Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('Pick a form to display on your site.', 'happyforms') : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__["__"])('No forms found.', 'happyforms')],
       className: "happyforms-block-form-selector-wrap",
       key: "happyforms-component-placeholder"
     }, settings.forms.length > 0 && Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", {
@@ -192,19 +195,22 @@ __webpack_require__.r(__webpack_exports__);
       from: [{
         type: 'block',
         blocks: ['core/legacy-widget'],
-        isMatch: ({
-          idBase,
-          instance
-        }) => {
+        isMatch: _ref => {
+          let {
+            idBase,
+            instance
+          } = _ref;
+
           if (!(instance !== null && instance !== void 0 && instance.raw)) {
             return false;
           }
 
           return idBase === 'happyforms_widget';
         },
-        transform: ({
-          instance
-        }) => {
+        transform: _ref2 => {
+          let {
+            instance
+          } = _ref2;
           return Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_4__["createBlock"])(blockID, {
             id: instance.raw.form_id
           });
@@ -216,7 +222,8 @@ __webpack_require__.r(__webpack_exports__);
         props.attributes.id = String(settings.forms[0].ID);
       }
 
-      let blockComponent = props.attributes.id ? ComponentForm(props) : ComponentPlaceholder(props);
+      props.attributes.exists = settings.forms.find(form => form.ID == props.attributes.id);
+      let blockComponent = props.attributes.id && props.attributes.exists ? ComponentForm(props) : ComponentPlaceholder(props);
       let inspectorComponent = settings.forms.length > 1 ? ComponentInspector(props) : false;
       let component = inspectorComponent ? [blockComponent, inspectorComponent] : [blockComponent];
       return component;

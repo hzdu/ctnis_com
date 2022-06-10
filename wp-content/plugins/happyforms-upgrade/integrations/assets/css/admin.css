@@ -60,6 +60,10 @@
     display: none;
 }
 
+.happyforms-integrations-widget .mode-group {
+     margin: 0 0 1em;
+}
+
 #happyforms-integrations-widget-recaptcha .has-service-selection[data-active-service="recaptcha"] #happyforms-service-recaptcha,
 #happyforms-integrations-widget-recaptcha .has-service-selection[data-active-service="recaptchav3"] #happyforms-service-recaptchav3 {
     display: block;
@@ -179,7 +183,7 @@
     height: 36px;
 }
 
-#happyforms-integrations-results .postbox .hndle, 
+#happyforms-integrations-results .postbox .hndle,
 #happyforms-integrations-results .postbox .handlediv {
     pointer-events: none;
 }
@@ -197,9 +201,34 @@
     display: block;
 }
 
+#happyforms-service-aweber .components-external-link__icon {
+  margin-bottom: -2px;
+}
+
+#happyforms-service-aweber a {
+  color: #2271b1;
+}
+
+
+#happyforms-service-aweber svg {
+  color: #2271b1;
+  fill: #2271b1;
+}
+
+#happyforms-service-aweber a:hover,
+#happyforms-service-aweber a:active {
+  color: #135e96;
+}
+
+#happyforms-service-aweber svg:hover,
+#happyforms-service-aweber svg:active {
+  color: #135e96;
+  fill: #135e96;
+}
+
 @media only screen and (min-width: 1500px) and (max-width: 1800px) {
     #happyforms-integrations-results .postbox-container {
-        width:  33.5%; 
+        width:  33.5%;
     }
 
     #happyforms-integrations-results #postbox-container-1 {

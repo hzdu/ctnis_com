@@ -27,11 +27,61 @@
 		defaults: {
 			is_default: false,
 			label: '',
+			description: '',
+			is_heading: false,
 		},
 	} );
 
 	var OptionCollection = Backbone.Collection.extend( {
 		model: OptionModel,
+	} );
+
+	happyForms.classes.views.parts.checkboxOptionHeading = Backbone.View.extend( {
+		template: '#customize-happyforms-checkbox-item-heading-template',
+
+		events: {
+			'click .delete-heading': 'onDeleteHeadingClick',
+			'keyup [name=label]': 'onHeadingLabelChange',
+			'change [name=label]': 'onHeadingLabelChange',
+		},
+
+		initialize: function( options ) {
+			this.template = _.template( $( this.template ).text() );
+			this.part = options.part;
+
+			this.listenTo( this, 'ready', this.onReady );
+		},
+
+		render: function() {
+			this.setElement( this.template( this.model.toJSON() ) );
+
+			return this;
+		},
+
+		onReady: function() {
+			$( '[name=label]', this.$el ).trigger( 'focus' );
+		},
+
+		onDeleteHeadingClick: function( e ) {
+			e.preventDefault();
+
+			this.model.collection.remove( this.model );
+		},
+
+		onHeadingLabelChange: function( e ) {
+			this.model.set( 'label', $( e.target ).val() );
+			this.part.trigger( 'change' );
+
+			var data = {
+				id: this.part.get( 'id' ),
+				callback: 'onCheckboxHeadingLabelChangeCallback',
+				options: {
+					itemID: this.model.get( 'id' ),
+				}
+			};
+
+			happyForms.previewSend( 'happyforms-part-dom-update', data );
+		},
 	} );
 
 	happyForms.classes.views.parts.checkboxOption = Backbone.View.extend( {
@@ -45,53 +95,22 @@
 			'keyup [name=description]': 'onItemDescriptionChange',
 			'change [name=is_default]': 'onItemDefaultChange',
 
-			'change [name=limit_submissions]': 'onItemLimitSubmissionsChange',
 			'keyup [name=limit_submissions_amount]': 'onItemLimitSubmissionsAmountChange',
 			'change [name=limit_submissions_amount]': 'onItemLimitSubmissionsAmountChange',
-			'change [name=show_submissions_amount]': 'onItemLimitShowSubmissionsAmountChange',
 		},
 
 		initialize: function( options ) {
 			this.template = _.template( $( this.template ).text() );
 			this.part = options.part;
 
-			this.listenTo( this.model, 'change:show_submissions_amount', this.onChangeShowSubmissions );
 			this.listenTo( this.model, 'change:limit_submissions_amount', this.onChangeMaxSubmissionsAmount );
 			this.listenTo( this, 'ready', this.onReady );
 		},
 
-		onItemLimitSubmissionsChange: function( e ) {
-			var isChecked = $( e.target ).is( ':checked' );
-
-			if ( ! isChecked ) {
-				this.model.set( 'show_submissions_amount', 0 );
-				$( "input[name='show_submissions_amount']", this.$el ).prop('checked',false);;
-			}
-
-			this.model.set( 'limit_submissions', isChecked ? 1 : 0 );
-			$( '.happyforms-part-item-limit-submission-settings', this.$el ).toggle();
-		},
-
-		onChangeShowSubmissions: function( e ) {
-
-			var model = this.part;
-
-			this.part.fetchHtml( function( response ) {
-				var data = {
-					id: model.get( 'id' ),
-					html: response,
-				};
-
-				happyForms.previewSend( 'happyforms-form-part-refresh', data );
-
-			} );
-		},
-
 		onChangeMaxSubmissionsAmount: function( e ) {
-
 			var model = this.part;
 
-			if ( 1 != this.model.get('show_submissions_amount') ) {
+			if ( '' == this.model.get('limit_submissions_amount') ) {
 				return;
 			}
 
@@ -107,22 +126,16 @@
 		},
 
 		onItemLimitSubmissionsAmountChange: function( e ) {
+			var value = $( '[name="limit_submissions_amount"]', this.$el ).val();
+
+			if ( 0 > value ) {
+				$( '[name="limit_submissions_amount"]', this.$el ).val( '' );
+				return;
+			}
+
 			this.model.set( 'limit_submissions_amount', $( e.target ).val() );
 			this.part.trigger( 'change' );
 		},
-
-		onItemLimitSubmissionsAmountChange: function( e ) {
-			this.model.set( 'limit_submissions_amount', $( e.target ).val() );
-			this.part.trigger( 'change' );
-		},
-
-		onItemLimitShowSubmissionsAmountChange: function( e ) {
-			var isChecked = $( e.target ).is( ':checked' );
-
-			this.model.set( 'show_submissions_amount', isChecked ? "1" : 0 );
-			this.part.trigger( 'change' );
-		},
-
 
 		render: function() {
 			this.setElement( this.template( this.model.toJSON() ) );
@@ -167,29 +180,39 @@
 			this.model.set( 'description', $( e.target ).val() );
 			this.part.trigger( 'change' );
 
-			var data = {
-				id: this.part.get( 'id' ),
-				callback: 'onCheckboxItemDescriptionChangeCallback',
-				options: {
-					itemID: this.model.get( 'id' ),
-				}
-			};
+			if ( '' == this.model.previousAttributes().description || '' ==  this.model.get( 'description' ) ) {
+				var self = this;
+				this.part.fetchHtml( function( response ) {
+					var data = {
+						id: self.part.get( 'id' ),
+						html: response,
+					};
 
-			happyForms.previewSend( 'happyforms-part-dom-update', data );
+					happyForms.previewSend( 'happyforms-form-part-refresh', data );
+				} );
+			} else {
+
+				var data = {
+					id: this.part.get( 'id' ),
+					callback: 'onCheckboxItemDescriptionChangeCallback',
+					options: {
+						itemID: this.model.get( 'id' ),
+					}
+				};
+
+				happyForms.previewSend( 'happyforms-part-dom-update', data );
+			}
 		},
 
 		onItemDefaultChange: function( e ) {
-			var isChecked = $( e.target ).is( ':checked' );
+			var $target = $( e.target );
 
-			this.model.collection.forEach( function( item ) {
-				item.set( 'is_default', 0 );
-			} );
-
-			$( '[name=option_is_default]', this.$el.siblings() ).prop( 'checked', false );
-
-			if ( isChecked ) {
+			if ( $target.is( ':checked' ) ) {
 				this.model.set( 'is_default', 1 );
-				$( e.target ).prop( 'checked', true );
+				$target.prop( 'checked', true );
+			} else {
+				this.model.set( 'is_default', 0 );
+				$target.prop( 'checked', false );
 			}
 
 			var data = {
@@ -209,12 +232,11 @@
 
 		events: _.extend( {}, happyForms.classes.views.Part.prototype.events, {
 			'click .add-option': 'onAddOptionClick',
+			'click .add-heading': 'onAddHeadingClick',
 			'click .import-option': 'onImportOptionClick',
 			'click .import-options': 'onImportOptionsClick',
 			'click .add-options': 'onAddOptionsClick',
-			'change [name=display_type]': 'onDisplayTypeChange',
-			'keyup [name=label]': 'onEnterKey',
-			'keyup [name=description]': 'onEnterKey',
+			'change [data-bind=display_type]': 'onDisplayTypeChange',
 
 			'change [data-bind=limit_choices_min]': 'refreshMinMaxChoices',
 			'change [data-bind=limit_choices_max]': 'refreshMinMaxChoices',
@@ -234,8 +256,6 @@
 			this.listenTo( this.optionViews, 'reset', this.onOptionViewsSorted );
 			this.listenTo( this, 'sort-stop', this.onOptionSortStop );
 			this.listenTo( this, 'ready', this.onReady );
-			this.listenTo( this.model, 'change:show_select_all', this.onSelectAllChange );
-			this.listenTo( this.model, 'change:select_all_label', this.onSelectAllLabelChange );
 
 			this.listenTo( this.model, 'change:other_option', this.onAddOtherOption );
 			this.listenTo( this.model, 'change:other_option_label', this.onOtherOptionLabelChange );
@@ -329,10 +349,21 @@
 		},
 
 		addOptionView: function( optionModel, options ) {
-			var optionView = new happyForms.classes.views.parts.checkboxOption( _.extend( {
-				model: optionModel,
-				part: this.model,
-			}, options ) );
+			var optionView = null;
+			var optionAttributes = optionModel.attributes;
+			var isHeading = 'undefined' !== typeof optionAttributes.is_heading && 1 == optionAttributes.is_heading;
+
+			if ( isHeading ) {
+				optionView = new happyForms.classes.views.parts.checkboxOptionHeading( _.extend( {
+					model: optionModel,
+					part: this.model,
+				}, options ) );
+			} else {
+				optionView = new happyForms.classes.views.parts.checkboxOption( _.extend( {
+					model: optionModel,
+					part: this.model,
+				}, options ) );
+			}
 
 			var optionViewModel = new Backbone.Model( {
 				id: optionModel.id,
@@ -391,6 +422,14 @@
 			this.model.get( 'options' ).add( itemModel );
 		},
 
+		onAddHeadingClick: function( e ) {
+			e.preventDefault();
+
+			var itemID = this.getOptionModelID();
+			var itemModel = new OptionModel( { id: itemID, is_heading: 1 } );
+			this.model.get( 'options' ).add( itemModel );
+		},
+
 		onDisplayTypeChange: function(e) {
 			var $input = $( e.target );
 			var attribute = $input.data( 'bind' );
@@ -398,28 +437,12 @@
 
 			this.model.set( attribute, $input.val() );
 
-			$( '.part-options-width-setting select option', this.$el ).hide();
-
-			var $supportedOptions = $( '.part-options-width-setting select option.display-type--' + value, this.$el );
-			$supportedOptions.show();
-
-			$( '.part-options-width-setting select' ).val( 'auto' ).trigger( 'change' );
-
 			var data = {
 				id: this.model.get( 'id' ),
 				callback: 'onCheckboxDisplayTypeChangeCallback',
 			};
 
 			happyForms.previewSend( 'happyforms-part-dom-update', data );
-		},
-
-		onEnterKey: function( e ) {
-			e.preventDefault();
-
-			if ( 'Enter' === e.key ) {
-				$( '.add-option', this.$el ).trigger( 'click' );
-				return;
-			}
 		},
 
 		onImportOptionsClick: function( e ) {
@@ -471,34 +494,6 @@
 
 			$textarea.val( '' );
 			$( '.add-options', this.$el ).trigger( 'click' );
-		},
-
-		onSelectAllChange: function( model, value ) {
-			var $selectAllOptions = $( '.happyforms-nested-settings[data-trigger="show_select_all"]', this.$el );
-
-			if ( 1 == value ) {
-				$selectAllOptions.show();
-			} else {
-				$selectAllOptions.hide();
-			}
-
-			this.model.fetchHtml( function( response ) {
-				var data = {
-					id: model.get( 'id' ),
-					html: response,
-				};
-
-				happyForms.previewSend( 'happyforms-form-part-refresh', data );
-			} );
-		},
-
-		onSelectAllLabelChange: function( model, value ) {
-			var data = {
-				id: this.model.get( 'id' ),
-				callback: 'onCheckboxSelectAllLabelChangeCallback'
-			};
-
-			happyForms.previewSend( 'happyforms-part-dom-update', data );
 		},
 
 		onAddOtherOption: function( model, value ) {
@@ -612,13 +607,6 @@
 			$option.remove();
 		},
 
-		onCheckboxSelectAllLabelChangeCallback: function( id, html, options ) {
-			var part = this.getPartModel( id );
-			var $part = this.getPartElement( html );
-
-			this.$( '.happyforms-part-option--select-all .label', $part ).text( part.get( 'select_all_label' ) );
-		},
-
 		onCheckboxOtherOptionLabelChangeCallback: function( id, html, options ) {
 			var part = this.getPartModel( id );
 			var $part = this.getPartElement( html );
@@ -634,6 +622,16 @@
 
 			$otherOptionInput.attr( 'placeholder', part.get( 'other_option_placeholder' ) );
 		},
+
+		onCheckboxHeadingLabelChangeCallback: function( id, html, options ) {
+			var part = this.getPartModel( id );
+			var $part = this.getPartElement( html );
+			var option = part.get( 'options' ).get( options.itemID );
+			var $option = $( '#' + options.itemID, $part );
+
+			this.$( 'label.heading-label', $option ).text( option.get( 'label' ) );
+		},
+
 	} );
 
 } ) ( jQuery, _, Backbone, wp.customize, _happyFormsSettings );

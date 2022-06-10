@@ -3,9 +3,9 @@
 Contributors: thethemefoundry
 Tags: contact form, contact form plugin, forms, form builder, custom form, intake form, registration form, survey form, quiz form, payment form, newsletter form, giveaway form, fundraising form, donation form, nomination form, order form, questionnaire form, onboarding form, contract form, estimate form, research form, qualitative form, quantitative form, membership form, mobile form, feedback form, release form, inquiry form, request form, evaluation form, RSVP form, reservation form, sales lead form, popup form, quote form, event form, booking form, application form, agreement form, safety form, compliance form, assessment form, sponsorship form, report form, file upload form, satisfaction form
 Requires at least: 5.0
-Tested up to: 5.8
+Tested up to: 6.0
 Requires PHP: 7.0
-Stable tag: 1.25.13
+Stable tag: 1.27.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ The WordPress form builder you need to manage and respond to conversations with 
 
 https://www.youtube.com/watch?v=X1snk2vJbXI
 
-[Happyforms](https://happyforms.io/) is the simplest way for you to manage and respond to conversations with your website visitors. With over 10 years of experience here at The Theme Foundry, we've heard from nearly 1,000,000 business what they need from a form builder! We've heard about the wasted time trying to set up tricky forms; the frustration of emails not being delivered; and the let down of not hearing from leads. That’s why we created Happyforms: Your free and friendly drag and drop form builder for creating contact forms, lead generation forms, feedback forms, quote forms, survey forms and more! Happyforms is optimized to increase conversations with your website visitors. Have peace of mind knowing messages to-and-from are getting delivered without the hassle of spam. You'll be set up and going in 5 minutes or less.
+[Happyforms](https://happyforms.io/) is the simplest way for you to manage and respond to conversations with your website visitors. With over 10 years of experience here at The Theme Foundry, we’ve heard from nearly 1,000,000 businesses what they need from a contact form builder plugin! We've heard about the wasted time trying to set up tricky forms; the frustration of emails not being delivered; and the let down of not hearing from leads. That’s why we created Happyforms: Your free and friendly drag and drop form builder for creating contact forms, lead generation forms, feedback forms, quote forms, survey forms and more! Happyforms is optimized to increase conversations with your website visitors. Have peace of mind knowing messages to-and-from are getting delivered without the hassle of spam. You'll be set up and going in 5 minutes or less.
 
 = Happyforms solves these struggles: =
 
@@ -57,8 +57,6 @@ https://www.youtube.com/watch?v=X1snk2vJbXI
 * Manage unlimited responses easily in the dashboard.
 * Let folks upload files to your forms.
 * Redirect to any webpage after the form is submitted.
-* Easily open forms in modal / pop-up window.
-* Password protect forms for private access.
 * Multi-page forms with progress bar.
 * Show and hide forms using date/time scheduler.
 * Limit the number of responses per form.
@@ -67,16 +65,186 @@ https://www.youtube.com/watch?v=X1snk2vJbXI
 * Enable people to save and resume responses.
 * Inherit theme styles option.
 * Preview values before submission.
-* Built-in dashboard analytics with no setup.
 * Log IP address automatically.
 * Poll field with real-time results.
 * Randomize form fields and values to avoid biases.
 * Advanced filtering of responses.
 * Fade submit button until valid.
-* Get access to our growing Slack community.
 * Unlimited personal and client use plans.
+* No-nonsense support team, happy to help over email.
+
+== Frequently Asked Questions ==
+
+= Can you read my replies? =
+
+Heck nah! No one likes peepers. All replies are saved in your WordPress database or sent to your inbox.
+
+Note: you'll need to upgrade to our paid contact form builder plugin to get some of the best goodies mentioned here.
+
+= Can I translate forms into my language? =
+
+Absolutely! Every last word read by your respondent can be translated — just type and replace. No extra plugins. No code changes. No fuss.
+
+Note: you'll need to upgrade to our paid contact form builder plugin to get some of the best goodies mentioned here.
+
+= Is Happyforms GDPR and CCPA ready? =
+
+Yep! We have a special field for collecting respondents’ consent for things just like this.
+
+Note: you'll need to upgrade to our paid contact form builder plugin to get some of the best goodies mentioned here.
+
+= Is my data safe? Is Happyforms HIPAA compliant? =
+
+Our competitors claim to be HIPAA compliant, but that’s misleading. Those dodgy buggers! Why have a compliant form if your site’s server, connected services and chosen inbox aren’t?
+
+To keep things simple, we say to disable Happyforms from saving replies and instead point replies to an email address hosted by an end-to-end encrypted email service like ProtonMail.
+
+It’s easier than it sounds. Promise. Hit us up if you have questions.
+
+= Does it work on a site not using WordPress? =
+
+Nope. Sorry! We’re for all things WordPress ‘round here.
+
+= Do I need to know how to code? =
+
+Nope. Happyforms has a fancy drag-n-drop builder. But if you find yourself needing to code something, email us. We can help you out with the nerdy stuff.
+
+= Does Happyforms work on all devices? =
+
+Yep! We always recommend building forms on a desktop, but you can fill out a form anywhere — mobile, tablet and desktop.
+
+Sadly no longer compatible with your 90s Tamagotchi.
+
+= Can I connect Happyforms to my favorite services? =
+
+Yep! Happyforms directly connects with reCaptcha, Google Analytics, ActiveCampaign, AWeber, Constant Contact, ConvertKit, Mailchimp, MailerLite, MailPoet, SendFox, SendGrid, Sendinblue, Stripe, PayPal, Zapier, Integrately and Integromat.
+
+Through Zapier, Integrately and Integromat, you can connect with services like Shopify, Kajabi, QuickBooks, Xero, WooCommerce, FreshBooks, Gumroad, Gmail, Slack, Discord, Twilio, Google Drive, Dropbox, Google Docs, Evernote, OneDrive, Airtable, Teachable, GitHub, ClickFunnels, Facebook Pages, Google Calendar, Trello, Calendly, Klaviyo, Asana, Basecamp, HubSpot, Zoho, Acuity Scheduling, Salesforce, Zendesk, Intercom, Wrike, ClickUp, Freshdesk, LiveChat, Drift, Jira, ScheduleOnce, Pipedrive and thousands more.
+
+Note: you'll need to upgrade to our paid contact form builder plugin to get some of the best goodies mentioned here.
+
+= What types of forms can I build? =
+
+Just about anything. A contact form, intake form, registration form, survey form, quiz form, payment form, newsletter form, giveaway form, fundraising form, donation form, nomination form, order form, questionnaire form, onboarding form, contract form, estimate form, research form, qualitative form, quantitative form, membership form, mobile form, feedback form, release form, inquiry form, request form, evaluation form, RSVP form, reservation form, sales lead form, popup form, quote form, event form, booking form, application form, agreement form, safety form, compliance form, assessment form, sponsorship form, report form, file upload form, satisfaction form, volunteer registration form, personality quiz form, calculator form — you name it.
+
+Note: you'll need to upgrade to our paid contact form builder plugin to get some of the best goodies mentioned here.
+
+= Does it work with my favorite theme and plugins? =
+
+Abso-freakin-lutely! We’re always checking to make sure Happyforms plays nicely with popular themes like Divi, Astra, Avada, Genesis, GeneratePress, Enfold, Flatsome and OceanWP, and popular plugins like Yoast SEO, Elementor, WooCommerce, Jetpack, Wordfence, UpdraftPlus, MonsterInsights, WP Super Cache, Smush, W3 Total Cache, Loco Translate, SiteOrigin and Popup Maker.
+
+Note: you'll need to upgrade to our paid contact form builder plugin to get some of the best goodies mentioned here.
+
+= What are your brand guidelines? =
+
+Aw, honestly, the thought that you're writing about our contact form builder is making us blush. That's very kind of you! If we can be picky, please stick by these guidelines:
+
+* Happyforms (correct)
+* HappyForms (incorrect)
+* Happyform (incorrect)
+* Happy Forms (incorrect)
+* Happy Form (incorrect)
 
 == Changelog ==
+
+= 1.27.3 =
+* New feature: Submissions are checked against headless browsers for better antispam protection.
+* Improvement: Form fields and field choices preserve their shuffled state when a validation occurs on submission for better usability.
+* Improvement: Phone field's country dropdown has been replaced with a number input for better performance and accessibility.
+* Improvement: Removed the default random API keys for Zapier, Integromat, Integrately integrations.
+* Improvement: Change "Limit submissions" checkbox to "Max number of submissions" numeric input under the "Setup" tab of the form builder.
+* Improvement: Change "Delete permanently replies and attachments after set number of days" checkbox to "Erase respondent's personal data after set number of days" numeric input under the "Setup" tab of the form builder.
+* Improvement: Better wording and style fixes in the form builder.
+* Bugfix: Opt-In Choice field label spacing was off.
+
+= 1.27.2 =
+* New feature: "All forms" dropdown in Media screen allows for easier filtering of media files uploaded through File Upload field.
+* New feature: "Screen Options" tab now includes "View mode" for better consistency with core WordPress.
+* New feature: "Empty Spam" button allows for easier bulk-removal of spam activity.
+* Improvement: Activity screen performance has been optimized for large numbers of form fields and activity entries.
+* Improvement: Numbers submitted through Phone fields are now callable with a simple click.
+* Improvement: Installation data is now deleted automatically on plugin removal for easier deactivation.
+* Improvement: Better linear spacing for all choice-based field controls.
+* Improvement: Automatic alignment of File Upload field's "Max size per file" control with the server's settings.
+* Bugfix: Action links in the Activity admin table were causing visual glitches.
+* Bugfix: An old migration routine was resetting the Email tab "Connect with" control.
+* Bugfix: Constant Contact integration wasn't able to refresh tokens, forcing authentication again and again.
+* Removal: Matrix field has been deprecated in favor of multiple Radio and Checkbox fields, which offer better usability and accessibility.
+
+= 1.27.1 =
+* New feature: Checksum-based verification system against repeated spam submissions.
+* New feature: Added "Headings" for Radio, Checkbox, and Dropdown field choices.
+* Improvement: "Max number of submissions" counters are now calculated in real time for better consistency.
+* Improvement: Happyforms block now displays a notice when a form published on page was trashed.
+* Improvement: Re-arranged the position of "Require an Answer" control for better consistency.
+* Improvement: Renamed "Limit submissions" control to "Max number of submissions" in all choice-type fields.
+* Improvement: Improved usability of "Min number" and "Max number" controls in Number field.
+* Improvement: In all choice-type fields, remaining submissions are now shown by default.
+* Bugfix: Stripe library was being loaded even when not in use.
+* Bugfix: Validation error on optional field with min/max requirements.
+* Bugfix: Address field's "Suggest address based on what the respondent types" control was throwing Javascript errors.
+* Bugfix: Deprecated "Signature" placeholder control was showing up with "Label" set to hidden.
+
+= 1.27.0 =
+* New feature: File Upload field's "Min number of files" and "Max number of files" control allow for finer control of file limits.
+* Improvement: File Upload field now allows selecting allowed file types one by one, including those added through hooks.
+* Improvement: All frontend scripts are now bundled in a single file for better performance and cache friendliness.
+* Improvement: "Spam" links are now available under entries in the Trash tab of the Activity screen.
+* Improvement: Bulk actions entries have been tidied up when filtering the Activity screen on a single form.
+* Bugfix: Duplicating a form would throw an error on PHP 8.0.
+* Bugfix: "Limit how many times this choice can be submitted" counters were being wrongly copied to duplicated forms.
+
+= 1.26.5 =
+* New feature: "Limit how many times the same answer can be submitted" allows for setting a submission limit on all open fields.
+* Improvement: Tidied up horizontal and vertical alignment of notices.
+* Improvement: Forms are now sorted by "last modified" date for easier management.
+* Improvement: All instances of a form's navigational controls have been turned into buttons for better accessibility.
+* Improvement: Website field's prefix now defaults to "https://".
+* Bugfix: Slider field was throwing errors when using "Allow range select".
+* Bugfix: Payment field validation was misbehaving on systems running PHP 8.0 and higher.
+* Removal: "Limit submissions per user" has been deprecated in favor of the new "Limit how many times the same answer can be submitted".
+
+= 1.26.4 =
+* New feature: "Step Interval" control allows for fine tuning the incrementing interval of Number, Slider and Payment fields.
+* Improvement: Redesigned layout of multi-page form navigation for better usability and use of space.
+* Improvement: "Make this choice default" control now supports multiple choices in Checkbox field.
+* Improvement: Updated Constant Contact integration to match the new authentication system.
+* Bugfix: Dropdown field was ignoring some style settings.
+
+= 1.26.3 =
+* Bugfix: Dropdown field was misbehaving when involved in conditional logic.
+
+= 1.26.2 =
+* New feature: "Hint" control for adding descriptive text to Radio and Checkbox field choices.
+* Improvement: Nicer vertical alignment of choices spanning multiple lines in Radio and Checkbox fields.
+* Improvement: "Align choices" control is now a button group for better usability.
+* Improvement: Exhausted choices are now always tagged with "(0 remaining)" to avoid confusion.
+* Improvement: All instances of "submit" type inputs have been replaced with buttons for easier styling.
+* Improvement: All custom form dropdowns have been replaced with their native counterparts for better performance and accessibility.
+* Removal: Rank field has been deprecated, since its functionality is better covered by a combination of other fields.
+* Removal: Built-in PDF generation was limited and has been deprecated in favor of dedicated services.
+* Removal: "Store replies and attachments in database" control caused issues with other, more important features and has been deprecated.
+
+= 1.26.1 =
+* Improvement: Nonce checks have been removed for improved compatibility with cache plugins.
+* Removal: "Tooltip" styling for field hints has been deprecated to improve usability of forms.
+* Removal: "Add 'select all' choice" was redundant and has been deprecated.
+* Removal: Long Text field's more lightweight with "Add rich text editor toolbar" deprecation.
+* Bugfix: Form width was rendered incorrectly on specific PHP versions.
+* Bugfix: Payment field form notices weren't working correctly.
+
+= 1.26.0 =
+* New feature: New "Scrollable Terms" field.
+* Improvement: Multi-page forms have been overhauled for better usability.
+* Removal: Long Text field "Rows" behaved inconsistently and has been removed.
+* Removal: "Add other choice" control has been deprecated in favor of conditional logic.
+* Removal: "Consent Choice" field was redundant and has been deprecated.
+
+= 1.25.14 =
+* Improvement: Miscellaneous improvements to Forms screen.
+* Improvement: New filter allows finer control of assets loading.
+* Improvement: Ajax handling of actions in Activity screen.
+* Bugfix: A back-compat routine was preventing submissions on specific form configurations.
 
 = 1.25.13 =
 * Bugfix: Signatures were being cropped incorrectly.
@@ -244,7 +412,7 @@ https://www.youtube.com/watch?v=X1snk2vJbXI
 * Bugfix: Function re-declaration was breaking choice-based fields.
 
 = 1.24.2 =
-* New feature: Integrately integration.
+* New feauture: Integrately integration.
 * Improvement: Automatic validation of "Limit choices" controls.
 * Improvement: All dropdowns become searchable automatically with more than 6 choices.
 * Bugfix: "Add Media" button in Email tab wasn't working.
@@ -877,6 +1045,39 @@ https://www.youtube.com/watch?v=X1snk2vJbXI
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.27.3 =
+* Improved antispam protection, better shuffling of fields and choices, simplified Phone field country input, miscellaneous improvements and bugfixes.
+
+= 1.27.2 =
+* New "View Mode" control in "Screen Options" tab, "Empty Spam" button, automatic cleanup on plugin removal, performance and visual improvements.
+
+= 1.27.1 =
+* New checksum-based verification system against spam, headings for choice-based fields, miscellaneous improvements and bugfixes
+
+= 1.27.0 =
+* Single-bundle frontend scripts for better performance, new File Upload field controls, form duplication bugfixes and miscellaneous improvements.
+
+= 1.26.5 =
+* New "Limit how many times the same answer can be submitted" for open-ended fields, forms screen usability improvements, miscellaneous style improvements.
+
+= 1.26.4 =
+* New "Step Interval" control for Number, Slider and Payment field, improved multi-page form navigation, Constant Contact integration updates and miscellaneous improvements and bugfixes.
+
+= 1.26.3 =
+* Conditional logic bugfixes.
+
+= 1.26.2 =
+* Radio and Checkbox fields choice hints, true submit buttons, layout and usability improvements.
+
+= 1.26.1 =
+* Improved cache compatibility, feature deprecations, minor bugfixes.
+
+= 1.26.0 =
+* New "Scrollable Terms" field, multi-page forms improvements.
+
+= 1.25.14 =
+* Miscellaneous improvements.
 
 = 1.25.13 =
 * Signature field bugfixes.

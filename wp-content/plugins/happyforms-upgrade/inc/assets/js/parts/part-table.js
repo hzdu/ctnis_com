@@ -49,7 +49,6 @@
 			'keyup [name=label]': 'onLabelChange',
 			'change [name=is_default]': 'onDefaultChange',
 			'click .advanced-column': 'onAdvancedColumnClick',
-			'change [name=limit_submissions]': 'onItemLimitSubmissionsChange',
 			'keyup [name=limit_submissions_amount]': 'onItemLimitSubmissionsAmountChange',
 		},
 
@@ -123,13 +122,6 @@
 			happyForms.previewSend( 'happyforms-part-dom-update', data );
 		},
 
-		onItemLimitSubmissionsChange: function( e ) {
-			var isChecked = $( e.target ).is( ':checked' );
-
-			this.model.set( 'limit_submissions', isChecked ? 1 : 0 );
-			$( '.happyforms-part-item-limit-submission-settings', this.$el ).toggle();
-		},
-
 		onItemLimitSubmissionsAmountChange: function( e ) {
 			this.model.set( 'limit_submissions_amount', $( e.target ).val() );
 			this.part.trigger( 'change' );
@@ -193,8 +185,6 @@
 			'click .import-column': 'onImportColumnClick',
 			'click .import-options': 'onImportOptionsClick',
 			'click .add-options': 'onAddOptionsClick',
-			'keyup .column-list [name=label]': 'onColumnEnterKey',
-			'keyup .row-list [name=label]': 'onRowEnterKey',
 			'change [data-bind=limit_choices_min]': 'refreshMinMaxChoices',
 			'change [data-bind=limit_choices_max]': 'refreshMinMaxChoices',
 		} ),
@@ -543,24 +533,6 @@
 			$link.addClass( 'active' );
 			$tabs.removeClass( 'active' );
 			$tab.addClass( 'active' );
-		},
-
-		onColumnEnterKey: function( e ) {
-			e.preventDefault();
-
-			if ( 'Enter' === e.key ) {
-				$( '.add-column', this.$el ).trigger( 'click' );
-				return;
-			}
-		},
-
-		onRowEnterKey: function( e ) {
-			e.preventDefault();
-
-			if ( 'Enter' === e.key ) {
-				$( '.add-row', this.$el ).trigger( 'click' );
-				return;
-			}
 		},
 
 		onImportOptionsClick: function( e ) {

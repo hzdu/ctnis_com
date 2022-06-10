@@ -15,6 +15,7 @@
 
 		events: _.extend( {}, happyForms.classes.views.Part.prototype.events, {
 			'change [name=masked]': 'onMaskedChange',
+			'change [data-bind=step]': 'onNumberStepIntervalChange',
 		} ),
 
 		initialize: function () {
@@ -63,6 +64,20 @@
 
 				happyForms.previewSend( 'happyforms-form-part-refresh', data );
 			} );
+		},
+
+		onNumberStepIntervalChange: function( e ) {
+			if ( $( e.target ).val() <= 0 ) {
+				$('[data-bind=step]', this.$el).val( 1 );
+				this.model.set( 'step', 1 );
+			}
+
+			var data = {
+				id: this.model.get( 'id' ),
+				callback: 'onNumberStepIntervalChangeCallback',
+			};
+
+			happyForms.previewSend( 'happyforms-part-dom-update', data );
 		},
 
 		onThousandsDelimiterChange: function() {
@@ -183,7 +198,15 @@
 			var $suffix = this.$( '.happyforms-input-group__suffix span', $part );
 
 			$suffix.text( part.get( 'mask_numeric_suffix' ) );
-		}
+		},
+
+		onNumberStepIntervalChangeCallback: function( id, html, options ) {
+			var part = this.getPartModel( id );
+			var $part = this.getPartElement( html );
+			var $input = this.$( 'input', $part );
+
+			$input.attr( 'step', part.get( 'step' ) );
+		},
 	} );
 
 } ) ( jQuery, _, Backbone, wp.customize, _happyFormsSettings );

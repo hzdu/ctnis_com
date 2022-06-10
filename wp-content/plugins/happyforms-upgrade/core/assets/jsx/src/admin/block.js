@@ -1,4 +1,4 @@
-import { Placeholder, SelectControl, PanelBody, Icon, Button } from '@wordpress/components';
+import { Placeholder, SelectControl, PanelBody, Icon, Button, Notice } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import { InspectorControls } from '@wordpress/block-editor';
 import { registerBlockType, createBlock } from '@wordpress/blocks';
@@ -12,20 +12,25 @@ import { __, sprintf } from '@wordpress/i18n';
 		.map( function( form ) {
 			return { label: form.post_title, value: form.ID };
 		} )
-	options.reverse().unshift( { label: __( 'Choose', 'happyforms' ), value: '' } );
+	options.unshift( { label: __( 'Choose', 'happyforms' ), value: '' } );
 
 	var ComponentPlaceholder = function( props ) {
 		const [ form, setForm ] = useState( '' );
-
+		
 		return (
 			<Placeholder
 				icon={ <Icon icon={ settings.block.icon } style={{ marginRight: "14.66px" }} /> }
 				label={ settings.block.title }
-				instructions={
+				instructions={ [
+					( props.attributes.id && ! props.attributes.exists ) && (
+						<Notice status="warning" isDismissible={ false }>
+							{ __( 'The form previously added has been trashed or deleted.', 'happyforms' ) }
+						</Notice>
+					),
 					settings.forms.length > 0 ?
 					__( 'Pick a form to display on your site.', 'happyforms' ) :
 					__( 'No forms found.', 'happyforms' )
-				}
+				] }
 				className="happyforms-block-form-selector-wrap"
 				key="happyforms-component-placeholder">
 
@@ -101,8 +106,10 @@ import { __, sprintf } from '@wordpress/i18n';
 				props.attributes.id = String( settings.forms[0].ID );
 			}
 
+			props.attributes.exists = settings.forms.find( form => form.ID == props.attributes.id );
+
 			let blockComponent = (
-				props.attributes.id ?
+				props.attributes.id && props.attributes.exists ?
 				ComponentForm( props ) :
 				ComponentPlaceholder( props )
 			);

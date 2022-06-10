@@ -11,14 +11,12 @@
 			this.$input.on( 'change', this.triggerChange.bind( this ) );
 
 			// poll links
-			$( 'a.happyforms-poll__show-results', this.$el ).on( 'click', this.onShowResultsClick.bind( this ) );
-			$( 'a.happyforms-poll__back-to-poll', this.$el ).on( 'click', this.onBackToPollClick.bind( this ) );
+			$( 'button.happyforms-poll__show-results', this.$el ).on( 'click', this.onShowResultsClick.bind( this ) );
+			$( 'button.happyforms-poll__back-to-poll', this.$el ).on( 'click', this.onBackToPollClick.bind( this ) );
 
 			// other option
 			this.$input.on( 'change', this.onPollOptionChange.bind( this ) );
 			this.$input.on( 'focus', this.onFocus.bind( this ) );
-
-			this.initTooltip();
 		},
 
 		onPollOptionChange: function( e ) {

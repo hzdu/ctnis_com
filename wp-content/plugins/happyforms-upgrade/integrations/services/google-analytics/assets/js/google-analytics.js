@@ -57,4 +57,4 @@
 		HappyForms.googleAnalytics.bind();
 	} );
 
-} )( jQuery, _happyFormsGASettings );
+} )( jQuery, _happyFormsSettings.googleAnalytics );

@@ -141,8 +141,7 @@
 			'click .import-options': 'onImportOptionsClick',
 			'click .add-options': 'onAddOptionsClick',
 			'change [name=display_type]': 'onDisplayTypeChange',
-			'keyup [name=label]': 'onEnterKey',
-			'keyup [name=description]': 'onEnterKey',
+
 		} ),
 
 		initialize: function() {
@@ -323,15 +322,6 @@
 			};
 
 			happyForms.previewSend( 'happyforms-part-dom-update', data );
-		},
-
-		onEnterKey: function( e ) {
-			e.preventDefault();
-
-			if ( 'Enter' === e.key ) {
-				$( '.add-option', this.$el ).trigger( 'click' );
-				return;
-			}
 		},
 
 		onImportOptionsClick: function( e ) {

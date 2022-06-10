@@ -22,11 +22,11 @@
 }
 
 .happyforms-save-session {
-  display: none;
+  display: none !important;
 }
 
 [data-happyforms-resumable] .happyforms-save-session {
-  display: inline;
+  display: inline-block !important;
 }
 
 .happyforms--signature-area--container,

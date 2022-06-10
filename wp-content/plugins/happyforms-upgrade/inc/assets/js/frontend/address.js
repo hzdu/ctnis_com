@@ -33,7 +33,6 @@
 				});
 			}
 
-			this.initTooltip();
 			this.onBlur();
 			this.$el.trigger( 'happyforms-part-address-init' );
 		},
@@ -52,4 +51,4 @@
 		},
 	}
 
-} )( jQuery, _happyFormsAddressSettings );
+} )( jQuery, _happyFormsSettings.address );

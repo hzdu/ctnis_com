@@ -1,8 +1,8 @@
-( function( $ ) {
+( function( $, settings ) {
 
 	HappyForms.parts = HappyForms.parts || {};
 
-	HappyForms.parts.recaptcha = {
+	HappyForms.parts.recaptcha_v2 = {
 		init: function() {
 			this.type = this.$el.data( 'happyforms-type' );
 			this.$input = $( '> div', this.$el );
@@ -14,6 +14,14 @@
 			this.render();
 		},
 
+		loadLibrary: function() {
+			HappyForms.scripts.fetch( 'recaptcha', settings.libraryURL, this.onLibraryLoaded.bind( this ) );
+		},
+
+		onLibraryLoaded: function() {
+			grecaptcha.ready( this.onReady.bind( this ) );
+		},
+
 		onReady: function() {
 			this.ready = true;
 			this.render();
@@ -21,7 +29,7 @@
 
 		render: function() {
 			if ( ! this.ready ) {
-				grecaptcha.ready( this.onReady.bind( this ) );
+				this.loadLibrary();
 				return;
 			}
 
@@ -76,4 +84,4 @@
 		},
 	};
 
-} )( jQuery );
+} )( jQuery, _happyFormsSettings.googleRecaptcha );

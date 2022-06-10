@@ -3,25 +3,20 @@
  * Responses
  *
  */
-#adv-settings {
-    display: flex;
-    flex-flow: column wrap;
-}
-
-#adv-settings fieldset:first-child {
-    order: 0;
-}
-
-#adv-settings fieldset.happyforms-analytics-settings {
-    order: 1;
-}
-
-#adv-settings fieldset.happyforms-activity-settings-parts {
-    order: 2;
-}
-
 #adv-settings fieldset.happyforms-activity-settings-pagination {
-    order: 3;
+    margin-top: 0px;
+}
+
+#adv-settings fieldset.happyforms-activity-settings-view-mode {
+    margin-top: 0px;
+}
+
+#adv-settings fieldset.happyforms-activity-settings-view-mode label {
+  padding-right: 15px;
+}
+
+#adv-settings fieldset.happyforms-activity-settings-view-mode input {
+  margin: -4px 5px 0 0;
 }
 
 #adv-settings .submit {
@@ -66,11 +61,6 @@ body.post-type-happyform .happyforms-responses-count {
     color: #444;
 }
 
-body.post-type-happyforms-message .fixed .column-contact {
-    width: 20%;
-}
-
-body.post-type-happyforms-message .fixed .column-contact img,
 body.post-type-happyforms-message .fixed .column-submission img {
     float: left;
     margin-top: 1px;
@@ -99,10 +89,6 @@ body.post-type-happyforms-message .fixed .column-submission .submission-data {
 }
 
 @media screen and (max-width: 782px) {
-    body.post-type-happyforms-message .column-contact,
-    body.post-type-happyforms-message .column-contact .toggle-row {
-        display: none !important;
-    }
     body.post-type-happyforms-message th.column-submission {
         display: table-cell !important;
     }
@@ -116,9 +102,6 @@ body.post-type-happyforms-message .fixed .column-submission .submission-data {
     }
     body.post-type-happyforms-message .fixed td.column-submission .submission-data {
         margin-top: 25px;
-    }
-    body.post-type-happyforms-message .wp-list-table .is-expanded td.column-contact {
-        display: none !important;
     }
     body.post-type-happyforms-message .wp-list-table .is-expanded td.column-form,
     body.post-type-happyforms-message .wp-list-table .is-expanded td.column-datetime {
@@ -259,30 +242,44 @@ tr.happyforms-message-unread th.check-column input {
     display: none;
 }
 
-body.post-type-happyforms-message .row-actions .mark_read a,
-body.post-type-happyforms-message .row-actions .untrash a,
-body.post-type-happyforms-message .row-actions .mark_not_spam a {
+body.post-type-happyforms-message .row-actions .happyforms-mark_read a,
+body.post-type-happyforms-message .row-actions .happyforms-restore a,
+body.post-type-happyforms-message .row-actions .happyforms-mark_not_spam a {
     color: #007017;
 }
 
-body.post-type-happyforms-message .row-actions .mark_spam a,
+body.post-type-happyforms-message .row-actions .happyforms-mark_spam a,
+body.post-type-happyforms-message .row-actions .happyforms-trash a,
+body.post-type-happyforms-message .row-actions .happyforms-delete a,
 body.post-type-happyform .row-actions .archive a {
     color: #b32d2e;
 }
 
-body.post-type-happyforms-message .row-actions .mark_spam a:hover,
+body.post-type-happyforms-message .row-actions .happyforms-mark_spam a:hover,
 body.post-type-happyform .row-actions .archive a:hover {
     border: none;
     color: #b32d2e;
 }
 
-body.post-type-happyforms-message .row-actions .mark_unread a {
+body.post-type-happyforms-message .row-actions .happyforms-mark_unread a {
     color: #996800;
+}
+
+body.post-type-happyforms-message tr.happyforms-message-unread .row-actions .happyforms-mark_unread {
+    display: none;
+}
+
+body.post-type-happyforms-message tr:not(.happyforms-message-unread) .row-actions .happyforms-mark_read {
+    display: none;
 }
 
 body.post-type-happyforms-message .wp-list-table tbody th,
 body.post-type-happyforms-message .wp-list-table tbody td {
     box-shadow: inset 0 -1px 0 rgba(0,0,0,.1);
+}
+
+tr.happyforms-undo {
+    background-color: #f6f7f7;
 }
 
 body.post-type-happyforms-message.edit-php #wpbody-content {
@@ -634,6 +631,21 @@ body.post-type-happyforms-message #post-body .misc-pub-comment-status:before {
     padding: 6px 8px;
 }
 
+.happyforms-message-edit-field-scrollable_terms .scrollbox {
+    height:  120px;
+    overflow-y: scroll;
+    resize: auto;
+    max-width: 100%;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    padding: 6px 8px;
+    box-sizing: border-box;
+}
+
+.happyforms-message-edit-field-scrollable_terms .scrollbox p {
+    margin: 0px !important;
+}
+
 #happyforms-message-send-email .inside {
     padding: 0;
 }
@@ -949,4 +961,22 @@ button.hf-hide-pw .dashicons {
         pointer-events: none;
         z-index: -1;
     }
+}
+
+.post-type-happyforms-message .tmp-hidden {
+  display: none;
+}
+
+fieldset.happyforms-activity-settings-parts input[type="number"],
+fieldset.happyforms-activity-settings-pagination input[type="number"] {
+  width: 4em
+}
+
+.upload-php #forms-filter,
+.upload-php #media-attachment-forms-filters {
+    display: none;
+}
+
+.tablenav.top input#delete_all_spam {
+    margin-left: -8px;
 }

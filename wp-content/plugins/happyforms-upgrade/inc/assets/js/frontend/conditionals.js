@@ -242,4 +242,4 @@
 		HappyForms.conditionals.bind();
 	} );
 
-} )( jQuery, _happyFormsConditionalSettings );
+} )( jQuery, _happyFormsSettings.conditionals );

@@ -16,7 +16,6 @@
 		initialize: function() {
 			happyForms.classes.views.Part.prototype.initialize.apply( this, arguments );
 
-			this.listenTo( this.model, 'change:step', this.onStepChange );
 			this.listenTo( this.model, 'change:min_label', this.onMinLabelChange );
 			this.listenTo( this.model, 'change:max_label', this.onMaxLabelChange );
 			this.listenTo( this.model, 'change:multiple', this.onMultipleChange );
@@ -31,6 +30,7 @@
 				'change [data-bind=default_range_to]': 'onDefaultRangeToChange',
 				'change [data-bind=default_range_from]': 'refreshPart',
 				'change [data-bind=default_range_to]': 'refreshPart',
+				'change [data-bind=step]': 'onSliderStepIntervalChange',
 		} ),
 
 		onMinValueChange: function( e ) {
@@ -92,10 +92,15 @@
 			}
 		},
 
-		onStepChange: function( model, value ) {
+		onSliderStepIntervalChange: function( e ) {
+			if ( $( e.target ).val() <= 0 ) {
+				$('[data-bind=step]', this.$el).val( 1 );
+				this.model.set( 'step', 1 );
+			}
+
 			var data = {
 				id: this.model.get( 'id' ),
-				callback: 'onScaleStepChange',
+				callback: 'onSliderStepIntervalChangeCallback',
 			};
 
 			happyForms.previewSend( 'happyforms-part-dom-update', data );
@@ -150,7 +155,7 @@
 	} );
 
 	happyForms.previewer = _.extend( happyForms.previewer, {
-		onScaleStepChange: function( id, html, options ) {
+		onSliderStepIntervalChangeCallback: function( id, html, options ) {
 			var part = this.getPartModel( id );
 			var $part = this.getPartElement( html );
 			var $input = this.$( 'input', $part );

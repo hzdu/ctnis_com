@@ -9,8 +9,8 @@
 
 	FormSessions.prototype.bind = function() {
 		$( document ).on( 'happyforms-change', '[data-happyforms-abandonable]', this.onChange.bind( this ) );
-		$( document ).on( 'click', 'a.happyforms-clear-session', this.onSessionClear.bind( this ) );
-		$( document ).on( 'click', 'a.happyforms-save-session', this.onSessionSave.bind( this ) );
+		$( document ).on( 'click', 'button.happyforms-clear-session', this.onSessionClear.bind( this ) );
+		$( document ).on( 'click', 'button.happyforms-save-session', this.onSessionSave.bind( this ) );
 	};
 
 	FormSessions.prototype.onChange = function( e ) {

@@ -18,12 +18,10 @@
 			this.$duplicateNotice = $( '.happyforms-file-notices .happyforms-part-error-notice[data-error-type=duplicate]', this.$el );
 			this.dragCounter = 0;
 
-			this.nonce = $( '[name="happyforms_message_nonce"]', this.$form ).val();
 			this.formId = $( '[name="happyforms_form_id"]', this.$form ).val();
 			this.partId = this.$el.attr( 'data-happyforms-part-id' );
 			this.maxFileSize = this.$el.attr( 'data-happyforms-max-file-size' ) + 'mb';
 			this.maxFileCount = parseInt( this.$el.attr( 'data-happyforms-max-file-count' ), 10 );
-			this.allowedFileTypes = this.$el.attr( 'data-happyforms-allowed-file-types' );
 			this.allowedFileExtensions = this.$el.attr( 'data-happyforms-allowed-file-extensions' );
 			this.$itemTemplate = $( '.item-template', this.$el );
 
@@ -37,9 +35,8 @@
 			this.$uploadBox.on( 'click', this.onClick.bind( this ) );
 			this.$uploadBox.on( 'dragenter', this.onDragEnter.bind(this) );
 			this.$uploadBox.on( 'dragleave', this.onDragLeave.bind(this) );
-			this.$fileList.on( 'click', 'a.happyforms-delete-attachment', this.onDeleteAttachment.bind( this ) );
+			this.$fileList.on( 'click', 'button.happyforms-delete-attachment', this.onDeleteAttachment.bind( this ) );
 
-			this.initTooltip();
 			this.initUploader();
 		},
 
@@ -61,29 +58,10 @@
 				prevent_duplicates: true,
 			};
 
-			var extensions;
-
-			switch ( this.allowedFileTypes ) {
-				case 'custom':
-					extensions = this.allowedFileExtensions.replace(/\s/g, '');
-					break
-				case 'documents':
-				case 'archives':
-				case 'images':
-				case 'media':
-					extensions = settings.mimeGroups[this.allowedFileTypes].join( ',' );
-					break;
-				default:
-					extensions = [];
-					for( var mime in settings.mimeGroups ) {
-						extensions.push( settings.mimeGroups[mime].join( ',' ) );
-					}
-					extensions = extensions.join( ',' );
-					break;
-			}
+			var extensions = this.allowedFileExtensions.replace(/\s/g, '');
 
 			filters.mime_types = [ {
-				title: this.allowedFileTypes,
+				title: 'mime types',
 				extensions: extensions,
 			} ];
 
@@ -96,7 +74,6 @@
 					action: settings.fileUploadAction,
 					happyforms_form_id: this.formId,
 					happyforms_part_id: this.partId,
-					happyforms_message_nonce: this.nonce,
 				},
 				filters: filters,
 			} );

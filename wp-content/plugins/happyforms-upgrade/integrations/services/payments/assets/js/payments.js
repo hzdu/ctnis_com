@@ -104,4 +104,4 @@
 		}
 	};
 
-} )( jQuery, _happyFormsPaymentsData );
+} )( jQuery, _happyFormsSettings.payments );

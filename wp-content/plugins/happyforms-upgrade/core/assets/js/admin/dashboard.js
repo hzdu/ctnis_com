@@ -5,12 +5,13 @@
 
 	happyForms.dashboard = {
 		$deactivationLink: null,
+		copyToClipboardTimeout: null,
 
 		init: function() {
 			$( document ).on( 'click', '.happyforms-editor-button', this.onEditorButton.bind( this ) );
 			$( '.happyforms-dialog__button' ).on( 'click', this.onDialogButton.bind( this ) );
 			$( '.happyforms-notice:not(.one-time)' ).on( 'click', '.notice-dismiss', this.onNoticeDismiss.bind( this ) );
-			$( document ).on( 'click', 'a[id^="deactivate-happyforms"]', this.openDeactivateModal );
+			$( document ).on( 'click', 'button.happyforms-shortcode-clipboard__button', this.copyShortcodeToClipboard );
 		},
 
 		onEditorButton: function( e ) {
@@ -86,10 +87,26 @@
 			);
 		},
 
-		openDeactivateModal: function( e ) {
-			e.preventDefault();
+		copyShortcodeToClipboard: function( e ) {
+			var $target = $( e.target );
+			var $success = $target.next();
+			var $input = $( '<input>' );
 
-			happyForms.modals.openDeactivateModal( e.target.href );
+			$input.val( $target.attr( 'data-shortcode' ) );
+			$target.after( $input );
+			$input.focus().select();
+
+			try {
+				document.execCommand( 'copy' );
+				clearTimeout( this.copyToClipboardTimeout );
+				$success.removeClass( 'hidden' );
+				copyToClipboardTimeout = setTimeout( function() {
+					$success.addClass( 'hidden' );
+				}, 3000 );
+			} catch( e ) {}
+
+			$target.trigger( 'focus' );
+			$input.remove();
 		},
 	};
 

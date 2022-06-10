@@ -125,8 +125,6 @@
 			'click .import-option': 'onImportOptionClick',
 			'click .import-options': 'onImportOptionsClick',
 			'click .add-options': 'onAddOptionsClick',
-			'keyup [name=label]': 'onEnterKey',
-			'keyup [name=description]': 'onEnterKey',
 			'change [data-bind=limit_choices_min]': 'refreshMinMaxChoices',
 			'change [data-bind=limit_choices_max]': 'refreshMinMaxChoices',
 		} ),
@@ -296,15 +294,6 @@
 			var itemID = this.getOptionModelID();
 			var itemModel = new OptionModel( { id: itemID } );
 			this.model.get( 'options' ).add( itemModel );
-		},
-
-		onEnterKey: function( e ) {
-			e.preventDefault();
-
-			if ( 'Enter' === e.key ) {
-				$( '.add-option', this.$el ).trigger( 'click' );
-				return;
-			}
 		},
 
 		onImportOptionsClick: function( e ) {

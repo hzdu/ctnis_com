@@ -14,15 +14,8 @@
 		template: '#happyforms-customize-phone-template',
 
 		events: _.extend({}, happyForms.classes.views.Part.prototype.events, {
-			'change [name=masked]': 'onMaskedChange',
+			'change [data-bind=masked]': 'onMaskedChange',
 		}),
-
-		initialize: function () {
-			happyForms.classes.views.Part.prototype.initialize.apply( this, arguments );
-
-			this.listenTo( this.model, 'change:mask_phone_country', this.refreshPhonePart );
-			this.listenTo( this.model, 'change:mask_allow_only_this_convention', this.refreshPhonePart );
-		},
 
 		/**
 		 * Toggle masked input configuration on `Mask this input` checkbox change.
@@ -36,17 +29,9 @@
 		onMaskedChange: function (e) {
 			var $input = $(e.target);
 			var attribute = $input.data('bind');
-			var $maskWrapper = $( '.happyforms-nested-settings[data-trigger="masked"]', this.$el );
-
-			if ($input.is(':checked')) {
-				this.model.set(attribute, 1);
-				$maskWrapper.show();
-			} else {
-				this.model.set(attribute, 0);
-				$maskWrapper.hide();
-			}
-
 			var model = this.model;
+
+			this.model.set( attribute, parseInt( $input.val() ) );
 
 			this.model.fetchHtml( function ( response ) {
 				var data = {
@@ -58,25 +43,39 @@
 			} );
 		},
 
-		refreshPhonePart: function( model, value ) {
-			model.fetchHtml(function (response) {
-				var data = {
-					id: model.get('id'),
-					html: response
-				};
+		onDefaultValueChange: function() {
+			var data = {
+				id: this.model.id,
+				callback: 'onPhoneDefaultValueChangeCallback',
+			};
 
-				happyForms.previewSend( 'happyforms-form-part-refresh', data );
-			});
-		}
+			happyForms.previewSend( 'happyforms-part-dom-update', data );
+		},
+
+		onPlaceholderChange: function() {
+			var data = {
+				id: this.model.id,
+				callback: 'onPhonePlaceholderChangeCallback',
+			};
+
+			happyForms.previewSend( 'happyforms-part-dom-update', data );
+		},
+
 	} );
 
 	happyForms.previewer = _.extend( happyForms.previewer, {
-		onPhoneCountryChangeCallback: function( id, html, options, $ ) {
-			var part = this.getPartModel( id );
-			var $part = this.getPartElement( html );
+		onPhoneDefaultValueChangeCallback: function( id, $part ) {
+			var part = happyForms.form.get( 'parts' ).get( id );
+			var default_value = part.get( 'default_value' );
 
-			$part.attr( 'data-country', part.get( 'mask_phone_country' ) );
-			$.fn.happyFormPart.call( $part, 'reinit' );
+			$part.find( '.happyforms-part-phone-wrap > .happyforms-input input' ).val( default_value );
+		},
+
+		onPhonePlaceholderChangeCallback: function( id, html ) {
+			var part = happyForms.form.get( 'parts' ).get( id );
+			var $part = this.$( html );
+
+			$part.find( '.happyforms-part-phone-wrap > .happyforms-input input' ).attr( 'placeholder', part.get( 'placeholder' ) );
 		},
 	} );
 

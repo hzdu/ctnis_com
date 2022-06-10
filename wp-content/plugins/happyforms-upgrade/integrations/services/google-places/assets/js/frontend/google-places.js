@@ -49,4 +49,4 @@
 			$( this ).happyFormsGooglePlaces();
 		} );
 	} );
-} ) ( jQuery, _happyFormsGooglePlacesSettings );
+} ) ( jQuery, _happyFormsSettings.googlePlaces );

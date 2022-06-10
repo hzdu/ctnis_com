@@ -31,6 +31,34 @@
 	wp.media.view.AttachmentFilters.All = All.extend( FiltersExtension );
 	wp.media.view.AttachmentFilters.Uploaded = Uploaded.extend( FiltersExtension );
 
+	var FormFilter = wp.media.view.AttachmentFilters.extend( {
+		id: 'media-attachment-forms-filters',
+
+		createFilters: function() {
+			var filters = {};
+			_.each( settings.forms || {}, function( value, index ) {
+				filters[ index ] = {
+					text: value.name,
+					props: {
+						happyforms_form_id: value.id,
+					}
+				};
+			} );
+
+			filters.all = {
+				text:  'All forms',
+				props: {
+					happyforms_form_id: ''
+				},
+				priority: 10
+			};
+
+			this.filters = filters;
+		},
+	});
+
+	wp.media.view.FormFilter = FormFilter;
+
 	wp.media.view.AttachmentsBrowser = AttachmentsBrowser.extend( {
 		createToolbar: function() {
 			AttachmentsBrowser.prototype.createToolbar.apply( this, arguments );
@@ -48,6 +76,22 @@
 			} );
 
 			this.toolbar.set( 'filters', filters.render() );
+
+			this.toolbar.set( 'formsFilter', new wp.media.view.FormFilter({
+				controller: this.controller,
+				model: this.collection.props,
+				priority: -75
+			}).render() );
+		}
+	} );
+
+	$( document ).on( 'change', '#media-attachment-filters', function( e ) {
+		var value = $( e.target ).val();
+
+		if ( 'happyforms' == value ) {
+			$( '#media-attachment-forms-filters' ).show();
+		} else {
+			$( '#media-attachment-forms-filters' ).hide();
 		}
 	} );
 
